@@ -1,0 +1,15 @@
+<h1>Posts</h1>
+
+<% if @user.posts.empty? %>
+  <p>No Posts Yet</p>
+<% end %>
+
+<ul>
+  <% @posts.each do |post| %>
+    <h3><li><%= link_to post.title, user_post_path(id: post.id) %></li></h3>
+  <% end %>
+</ul>
+
+<% if Current.user == @user %>
+  <%= button_to "Post", new_user_post_path, class: "btn btn-primary", method: :get %>
+<% end %>
