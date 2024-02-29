@@ -35,7 +35,7 @@
 <% @post.comments.each do |comment| %>
   <p>
     <strong>Commenter:</strong>
-    <%= comment.user.username %>
+    @<%= link_to comment.user.username, profile_user_path(comment.user), class: "link-dark" %>
   </p>
 
   <p>
