@@ -9,7 +9,9 @@ RSpec.describe Post, type: :model do
       let(:post2) { build :post, body: nil}
       
       it { should belong_to(:user).without_validating_presence }
-
+    end
+    
+    describe "Validations" do
       it "is valid with valid attributes" do
         expect(post).to be_valid
       end

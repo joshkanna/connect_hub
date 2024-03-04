@@ -19,7 +19,7 @@
               <div class="list-group">
                 <%= link_to "Edit", edit_user_post_path(@user, @post), class: "list-group-item list-group-item-action"%>
   
-                <%= link_to "Destroy", user_post_path(@user, @post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "list-group-item list-group-item-action" %> 
+                <%= link_to "Delete", user_post_path(@user, @post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
                 <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
@@ -34,13 +34,28 @@
 <h2>Comments</h2>
 <% @post.comments.each do |comment| %>
   <p>
-    <strong>Commenter:</strong>
-    @<%= link_to comment.user.username, profile_user_path(comment.user), class: "link-dark" %>
-  </p>
-
-  <p>
-    <strong>Comment:</strong>
+    <strong>@<%= link_to "#{comment.user.username}:", profile_user_path(comment.user), class: "link-dark" %></strong>
     <%= comment.body %>
+    <% if Current.user == comment.user %>
+      <button id="seeMore-<%= comment.id %>"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-<%= comment.id %>"class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+      </svg></button>
+
+      <div class="modal fade" id="exampleModal-<%= comment.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            
+            <div class="modal-body">
+              <div class="list-group">
+                <%= link_to "Delete", user_post_comment_path(@user, @post, comment), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
+                <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    <% end %>
   </p>
 <% end %>
 

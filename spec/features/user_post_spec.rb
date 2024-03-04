@@ -42,4 +42,26 @@ RSpec.feature "User Registration", type: :feature do
     expect(page).to have_text("edited Post")
     
   end
+
+  scenario "User succesfully creates a comment" do
+    user = create(:user, username: "testuser", email: "test@example.com", password: "password")
+    user2 = create(:user, username: "testuser2", email: "test2@example.com", password: "password")
+    
+    Friendship.create(user_id: user.id, friend_id: user2.id)
+    Friendship.create(user_id: user2.id, friend_id: user.id)
+
+    post = Post.create(id: 1, title: "Hey", body: "World", user_id: user.id)
+
+    visit sign_in_path 
+    sign_in_as(user2)
+
+    visit user_post_path(user, post)
+    expect(page).to have_text("Add a comment:")
+
+    fill_in "Body", with: "What's up"
+    click_button "Create Comment"
+
+    expect(page).to have_text("@#{user2.username}")
+    expect(page).to have_text("What's up")
+  end
 end
