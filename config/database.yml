@@ -82,3 +82,4 @@ production:
   database: connecthub_production
   username: connecthub
   password: <%= ENV["CONNECTHUB_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
