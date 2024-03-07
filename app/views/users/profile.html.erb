@@ -1,4 +1,4 @@
-<h3>@<%= @user.username %></h3>
+<h3 style="color: white">@<%= @user.username %></h3>
 
 <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><%= pluralize(@user.friends.count, "friend") %></a>
 
@@ -7,7 +7,7 @@
 
 <% if Current.user != @user && !Current.user.friends.include?(@user) %>
   <% if Current.user.sent_friend_requests.find_by(receiver_id: @user.id).nil? %>
-    <%= button_to "Send Friend Request", send_friend_request_user_path(@user), method: :post, class: "btn btn-primary" %>
+    <%= button_to "Send Friend Request", send_friend_request_user_path(@user), method: :post, class: "btn btn-secondary" %>
   <% else %>
     <%= button_to "Cancel Friend Request", cancel_friend_request_user_path(@user, request_id: Current.user.sent_friend_requests.find_by(receiver_id: @user.id).id), method: :delete, data: { confirm: 'Are you sure you want to cancel this friend request?' } %>
   <% end %>
@@ -20,20 +20,10 @@
 
 
 <% elsif Current.user == @user %>
-  <h3>Pending Friend Requests</h3>
-  <% @user.received_friend_requests.pending.each do |request| %>
-    <div class="row row-cols-auto">
-      <div class="col">
-        <h4><%= link_to "@#{request.sender.username}", profile_user_path(request.sender), class: "link-dark" %></h4>
-      </div>
-      <div class="col">
-        <%= button_to "Accept", accept_friend_request_user_path(@user, request_id: request.id), method: :post, class: "btn btn-success btn-sm" %>
-      </div>
-      <div class="col">
-        <%= button_to "Reject", reject_friend_request_user_path(@user, request_id: request.id), method: :post, class: "btn btn-danger btn-sm" %>
-      </div>
-    </div>
-  <% end %>
+  <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal-requests"><%= pluralize(@user.received_friend_requests.count, "friend requests") %></a>
+
+  <%= render 'shared/received_requests_modal' %>
+  
   <%= button_to "Posts", user_posts_path(user_id: @user.id), method: :get, class: "btn btn-secondary" %>
 <% else %>
    <%= button_to "Posts", user_posts_path(user_id: @user.id), method: :get, class: "btn btn-secondary" %>

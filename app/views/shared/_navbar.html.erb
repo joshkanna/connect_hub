@@ -19,7 +19,7 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <%= "@#{Current.user.username}" %>
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-dark">
               <li><%= link_to "Profile", profile_user_path(Current.user), class: "dropdown-item"%> </li>
               <li><%= link_to "Edit Password", edit_password_path, class: "dropdown-item"%> </li>
               <li><%= button_to "Log Out", logout_path, class: "dropdown-item", method: :delete %> </li>

@@ -6,7 +6,7 @@
 
 <ul>
   <% @posts.each do |post| %>
-    <h3><li><%= link_to post.title, user_post_path(id: post.id) %></li></h3>
+    <h3><li><%= link_to post.title, user_post_path(id: post.id), class:"link-light" %></li></h3>
   <% end %>
 </ul>
 

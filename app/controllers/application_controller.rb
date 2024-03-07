@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :current_user
   before_action :set_query
 
+
   def set_query
     @query = User.ransack(params[:q])
   end
@@ -33,5 +34,8 @@ class ApplicationController < ActionController::Base
       redirect_to sign_in_path
     end
   end
-end
 
+  def disable_nav
+    @disable_nav = true
+  end
+end

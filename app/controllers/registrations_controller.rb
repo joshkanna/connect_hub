@@ -1,5 +1,6 @@
 class RegistrationsController < ApplicationController
   before_action :require_user_logged_out!
+  before_action :disable_nav
 
   def new
     @user = User.new
@@ -16,7 +17,7 @@ class RegistrationsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-
+  
   private
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)

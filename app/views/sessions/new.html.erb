@@ -1,15 +1,21 @@
-<h1>Sign In</h1>
+<div class="container pt-5 pb-5 mt-5 mb-5 me-5">
+  <h1 class="mt-5 mb-5 text-center" style="color: white">ConnectHub</h1>
+  <h1 style="color: white">Sign In</h1>
 
-<%= form_with url: sign_in_path do |form| %>
-  <div class="mb-3">
-    <%= form.text_field :username_or_email, placeholder: "Username or Email", class: "form-control" %>
-  </div>
+  <%= form_with url: sign_in_path do |form| %>
+    <div class="mb-3">
+      <%= form.text_field :username_or_email, placeholder: "Username or Email", class: "form-control" %>
+    </div>
 
-  <div class="mb-3">
-    <%= form.password_field :password, placeholder: "Password", class: "form-control" %>
-  </div>
+    <div class="mb-3">
+      <%= form.password_field :password, placeholder: "Password", class: "form-control" %>
+    </div>
 
-  <div class="mb-3">
-    <%= form.submit "Log In",  class: "btn btn-primary" %>
-  </div>
-<% end %>
+    <div class="mb-3">
+      <%= form.submit "Log In",  class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <p style="color: white">Don't have an account?</p>
+  <p><%= link_to "Create an account", sign_up_path %></p>
+</div>

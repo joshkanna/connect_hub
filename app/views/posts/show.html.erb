@@ -1,13 +1,13 @@
-<div class="row">
+<div class="row mb-5">
   <div class="col">
     <h3>@<%= @user.username %></h3>
-    <h1><%= @post.title %></h1>
+    <h4><%= @post.title %></h1>
     <p><%= @post.body %></p>
   </div>
 
   <div class="col">
     <% if Current.user == @user %>
-      <button id="seeMore"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+      <button id="seeMore"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
         <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
       </svg></button>
 
@@ -23,7 +23,6 @@
                 <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -31,13 +30,14 @@
   </div>
 </div>
 
-<h2>Comments</h2>
+
+<h4>Comments</h4>
 <% @post.comments.each do |comment| %>
   <p>
-    <strong>@<%= link_to "#{comment.user.username}:", profile_user_path(comment.user), class: "link-dark" %></strong>
+    <strong>@<%= link_to "#{comment.user.username}:", profile_user_path(comment.user), class: "link-light" %></strong>
     <%= comment.body %>
     <% if Current.user == comment.user %>
-      <button id="seeMore-<%= comment.id %>"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-<%= comment.id %>"class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+      <button id="seeMore-<%= comment.id %>"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-<%= comment.id %>"class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
         <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
       </svg></button>
 
@@ -59,10 +59,9 @@
   </p>
 <% end %>
 
-<h2>Add a comment:</h2>
 <%= form_with model: [ @user, @post, @post.comments.build ] do |form| %>
   <p>
-    <%= form.label :body %><br>
+    <%= form.label "Add a comment" %><br>
     <%= form.text_area :body %>
   </p>
   <p>

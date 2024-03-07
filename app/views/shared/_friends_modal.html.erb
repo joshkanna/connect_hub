@@ -8,7 +8,7 @@
       <div class="modal-body">
         <ul class="list-group">
         <% @user.friends.each do |friend| %>
-          <li class="list-group-item"><%= link_to friend.username, profile_user_path(friend), class:"link-dark"%></li>
+          <li class="list-group-item"><%= link_to friend.username, profile_user_path(friend), class:"link-light"%></li>
         <% end %>
         </ul>
       </div>
