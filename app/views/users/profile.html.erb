@@ -20,7 +20,7 @@
 
 
 <% elsif Current.user == @user %>
-  <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal-requests"><%= pluralize(@user.received_friend_requests.count, "friend requests") %></a>
+  <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal-requests"><%= pluralize(@user.received_friend_requests.pending.count, "friend requests") %></a>
 
   <%= render 'shared/received_requests_modal' %>
   
