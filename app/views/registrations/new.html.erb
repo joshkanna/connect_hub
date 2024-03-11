@@ -1,40 +1,38 @@
 <%= stylesheet_link_tag "form", "data-turbo-track": "reload" %>
 
 
-
-<%= form_with(url: sign_up_path, class: 'form-signup') do |form| %>
+  <%= form_with(model: @user, url: sign_up_path, class: 'form-signup shadow') do |form| %>
   <% if @user.errors.any? %>
-    <div class="alert alert-danger">
-    <% @user.errors.full_messages.each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-    </div>
+  <div class="alert alert-warning">
+    <%= @user.errors.full_messages[0] %>
+  </div>
   <% end %>
 
   <div class="text-center mb-4">
-    <h1 class="h3 mb-3 font-weight-normal" style="color: white">ConnectHub</h1>
+    <h1 class="h3 mb-3 fw-bold">ConnectHub</h1>
     <p>Welcome</p>
-    
   </div>
 
   <div class="form-label-group">
-    <%= form.text_field :username, placeholder: "Username", class: "form-control" %>
+ 
+    <%= form.text_field :username, placeholder: "Username", class: "form-control border", id: "validationDefaultUsername", aria: { describedby: "inputGroupPrepend2" }, required: true %>
+
   </div>
 
   <div class="form-label-group">
-    <%= form.text_field :email, placeholder: "Email", class: "form-control" %>
+    <%= form.text_field :email, placeholder: "Email", class: "form-control border",  id: "validationDefaultEmail", aria: { describedby: "inputGroupPrepend2" }, required: true %>
+
   </div>
 
   <div class="form-label-group">
-    <%= form.text_field :password, placeholder: "Password", class: "form-control" %>
+    <%= form.text_field :password, placeholder: "Password", class: "form-control border",  id: "validationDefaultPassword", aria: { describedby: "inputGroupPrepend2" }, required: true %>
   </div>
 
   <div class="form-label-group">
-    <%= form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control" %>
+    <%= form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control border", id: "validationDefaultPasswordConf", aria: { describedby: "inputGroupPrepend2" }, required: true %>
   </div>
 
-  <%= form.submit "Sign Up",  class: "btn btn-lg btn-block btn-warning mt-2 mb-2" %>
+  <%= form.submit "Sign Up",  class: "btn btn-lg btn-block btn-warning mt-2 mb-2 fw-semibold" %>
+    <p class="text-muted" style="color: white">Have an account? <%= link_to "Sign In", sign_in_path, class: "link-light" %></p>
+  <% end %>
 
-  <p class="text-muted" style="color: white">Have an account? <%= link_to "Sign In", sign_in_path, class: "link-light" %></p>
-
-<% end %>
