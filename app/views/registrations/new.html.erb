@@ -1,35 +1,40 @@
-<div class="container pt-5 pb-5 mt-5 mb-5 me-5">
-  <h1 class="mt-5 mb-5 text-center" style="color: white">ConnectHub</h1>
-  <h1 style="color: white">Sign Up</h1>
-  <%= form_with model: @user, url: sign_up_path do |form| %>
-    <% if @user.errors.any? %>
-      <div class="alert alert-danger">
-      <% @user.errors.full_messages.each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-      </div>
+<%= stylesheet_link_tag "form", "data-turbo-track": "reload" %>
+
+
+
+<%= form_with(url: sign_up_path, class: 'form-signup') do |form| %>
+  <% if @user.errors.any? %>
+    <div class="alert alert-danger">
+    <% @user.errors.full_messages.each do |message| %>
+      <div><%= message %></div>
     <% end %>
-
-    <div class="mb-3">
-      <%= form.text_field :username, placeholder: "Username", class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.text_field :email, placeholder: "Email", class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.password_field :password, placeholder: "Password", class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.submit "Next",  class: "btn btn-primary" %>
     </div>
   <% end %>
-  <p style="color:white">Already have an account?</p>
-  <p><%= link_to "Sign in", sign_in_path %></p>
-</div>
+
+  <div class="text-center mb-4">
+    <h1 class="h3 mb-3 font-weight-normal" style="color: white">ConnectHub</h1>
+    <p>Welcome</p>
+    
+  </div>
+
+  <div class="form-label-group">
+    <%= form.text_field :username, placeholder: "Username", class: "form-control" %>
+  </div>
+
+  <div class="form-label-group">
+    <%= form.text_field :email, placeholder: "Email", class: "form-control" %>
+  </div>
+
+  <div class="form-label-group">
+    <%= form.text_field :password, placeholder: "Password", class: "form-control" %>
+  </div>
+
+  <div class="form-label-group">
+    <%= form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control" %>
+  </div>
+
+  <%= form.submit "Sign Up",  class: "btn btn-lg btn-block btn-warning mt-2 mb-2" %>
+
+  <p class="text-muted" style="color: white">Have an account? <%= link_to "Sign In", sign_in_path, class: "link-light" %></p>
+
+<% end %>

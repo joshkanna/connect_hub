@@ -1,0 +1,102 @@
+
+
+body {
+  display: flex;
+  text-align: left;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.form {
+  display: block;
+}
+
+.form-signin, .form-signup {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: auto;
+
+}
+
+.form-label-group {
+  height: 3.125rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.btn {
+  text-align: center;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-lg {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+}
+
+button {
+  padding-block: 1px;
+  padding-inline: 6px;
+  overflow: visible;
+}
+
+body, html {
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+.list-group, .modal-title {
+  text-align: center;
+}
+
+:root {
+  breakpoint-sm: 576px;
+  breakpoint-md: 768px;
+  breakpoint-lg: 992px;
+  breakpoint-xl: 1200px;
+}
+
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+p a {
+  text-decoration: none;
+}

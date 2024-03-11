@@ -13,11 +13,3 @@
  *= require_tree .
  *= require_self
 */
-
-.list-group, .modal-title {
-  text-align: center;
-}
-
-h3 {
-  color: white
-}
