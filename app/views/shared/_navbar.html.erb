@@ -5,16 +5,40 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
         <li class="nav-item">
           <%= link_to "Home", root_path, class: "nav-link active" %>
         </li>
+
+         <%= render 'search/form' %>
       </ul>
 
-      <%= render 'search/form' %>
+     
 
       <ul class="navbar-nav me-5 mb-2 mb-lg-0">
         <% if Current.user %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Notifications
+            </a>
+            <ul class="dropdown-menu">
+              <% !if Current.user.received_friend_requests.nil?%>
+                <% Current.user.received_friend_requests.pending.each do |request| %>
+                  <li class="dropdown-item">
+                    <div class="row">
+                      <div class="col d-flex justify-content-start">
+                        <p><%= link_to "@#{request.sender.username}", profile_user_path(request.sender), class: "link-light" %></p>
+                      </div>
+                      <div class="col gap-2 d-flex justify-content-end">
+                        <%= button_to "Accept", accept_friend_request_user_path(@user, request_id: request.id), method: :post, class: "btn btn-success btn-sm" %>
+                        <%= button_to "Reject", reject_friend_request_user_path(@user, request_id: request.id), method: :post, class: "btn btn-danger btn-sm" %>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <%= "@#{Current.user.username}" %>

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
     member do
       get "profile"
+      patch "update"
       post "send_friend_request"
       post "accept_friend_request"
       post "reject_friend_request"

@@ -4,6 +4,15 @@ class UsersController < ApplicationController
   def profile
     @user = User.find(params[:id])
     @posts = @user.posts.all
+    @bio = @user.bio
+  end
+
+  def update
+    @user = User.find(params[:id])
+    
+    if @user.update(user_params)
+      redirect_to profile_user_path(@user)
+    end
   end
 
   def send_friend_request
@@ -30,5 +39,10 @@ class UsersController < ApplicationController
   def reject_friend_request
     request = FriendRequest.find(params[:request_id])
     request.update(status: 'rejected')
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(:bio)
   end
 end
