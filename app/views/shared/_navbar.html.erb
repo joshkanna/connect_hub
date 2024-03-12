@@ -22,7 +22,7 @@
               Notifications
             </a>
             <ul class="dropdown-menu">
-              <% !if Current.user.received_friend_requests.nil?%>
+              <% if !Current.user.received_friend_requests.nil?%>
                 <% Current.user.received_friend_requests.pending.each do |request| %>
                   <li class="dropdown-item">
                     <div class="row">
