@@ -38,27 +38,23 @@
 
     <div class="col-8">
       <div class="p-3 md-5 mb-4 bg-body-tertiary">
-        <h3>Posts</h3>
-        <% if @user.posts.empty? %>
-          <p>No Posts Yet</p>
-        <% end %>
+        <h3>Feed</h3>
+
         <ul class="list-group">
-          <% @posts.reverse.each do |post| %>
-            <a href=<%= user_post_path(@user, post) %>>
-              <li class="list-group-item">
-                <p>@<%= @user.username %></p>
-                <h5><%=post.title%></h4>
-                <p><%=post.body%></p>
-                <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
-              </li>
-            </a>
+          <% Post.all.reverse.each do |post| %>
+            <% if post.user_id != @user.id && @user.friend_ids.include?(post.id) %>
+              <a href=<%= "users/#{post.user_id}/posts/#{post.id}" %>>
+                <li class="list-group-item">
+                  <p>@<%= User.find(post.user_id).username %></p>
+                  <h5><%=post.title%></h4>
+                  <p><%=post.body%></p>
+                  <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
+                </li>
+              </a>
+            <% end %>
           <% end %>
         </ul>
       </div>
-
-      <% if Current.user == @user %>
-        <%= button_to "Post", new_user_post_path, class: "btn btn-danger", method: :get %>
-      <% end %>
     </div>
   </div>
 </div>

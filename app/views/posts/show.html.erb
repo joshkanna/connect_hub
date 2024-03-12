@@ -1,70 +1,99 @@
-<div class="row mb-5">
-  <div class="col">
-    <h3>@<%= @user.username %></h3>
+<%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
+
+<div class="layout">
+  <div class="p-3 md-5 mb-4 border-bottom">
+    <div class="row">
+      <div class="col-sm-9 col-md-10 col-11">
+        <p><strong>@<%= link_to @user.username, profile_user_path(@user), class: "link-light" %></strong></p>
+      </div>
+
+      <div class="col">
+        <% if Current.user == @user %>
+          <button id="seeMore"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"class="btn btn-sm btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+          </svg></button>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                
+                <div class="modal-body">
+                  <div class="list-group seeMoreModal">
+                    <%= link_to "Edit", edit_user_post_path(@user, @post), class: "list-group-item list-group-item-action"%>
+      
+                    <%= link_to "Delete", user_post_path(@user, @post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
+                    <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
     <h4><%= @post.title %></h1>
     <p><%= @post.body %></p>
+    <time class="text-muted"><%=@post.updated_at.strftime("%d %b %Y")%></time>  
   </div>
 
-  <div class="col">
-    <% if Current.user == @user %>
-      <button id="seeMore"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
-      </svg></button>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            
-            <div class="modal-body">
-              <div class="list-group">
-                <%= link_to "Edit", edit_user_post_path(@user, @post), class: "list-group-item list-group-item-action"%>
-  
-                <%= link_to "Delete", user_post_path(@user, @post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
-                <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
-              </div>
+  <h4>Comments</h4>
+  <ul class="list-group mb-5">
+    <% @post.comments.each do |comment| %>
+      <li class="list-group-item">
+        <p>
+          <div class="row">
+            <div class="col-sm-9 col-md-10 col-11">
+              <strong>@<%= link_to "#{comment.user.username}", profile_user_path(comment.user), class: "link-light" %></strong>
+              <% if comment.created_at.year == Time.now.year%>
+                <time class="text-muted"><%=comment.created_at.strftime("%d %b")%></time>  
+              <% else %>
+                <time class="text-muted"><%=comment.created_at.strftime("%d %b %Y")%></time>  
+              <% end %>
+            </div>
+            <div class="col">
+              <% if Current.user == comment.user %>
+                <button id="seeMore-<%= comment.id %>"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-<%= comment.id %>"class="btn btn-sm btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                  <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                </svg></button>
+
+                <div class="modal fade" id="exampleModal-<%= comment.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      
+                      <div class="modal-body">
+                        <div class="list-group seeMoreModal">
+                          <%= link_to "Delete", user_post_comment_path(@user, @post, comment), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
+                          <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             </div>
           </div>
-        </div>
-      </div>
+          <div class="row">
+            <p><%= comment.body %></p>
+          </div>
+          
+        </p>
+      </li>
     <% end %>
-  </div>
+    <%= form_with model: [ @user, @post, @post.comments.build ] do |form| %>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+          <div class="form-label-group mt-2">
+            <%= form.text_area :body, class: "form-control", placeholder: "Add a comment..." %>
+          </div>
+          <div class="d-grid d-md-flex justify-content-md-end mt-2">
+            <%= form.submit "Post", class: "btn btn-danger" %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
 </div>
-
-
-<h4>Comments</h4>
-<% @post.comments.each do |comment| %>
-  <p>
-    <strong>@<%= link_to "#{comment.user.username}:", profile_user_path(comment.user), class: "link-light" %></strong>
-    <%= comment.body %>
-    <% if Current.user == comment.user %>
-      <button id="seeMore-<%= comment.id %>"type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-<%= comment.id %>"class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
-      </svg></button>
-
-      <div class="modal fade" id="exampleModal-<%= comment.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            
-            <div class="modal-body">
-              <div class="list-group">
-                <%= link_to "Delete", user_post_comment_path(@user, @post, comment), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
-                <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </p>
-<% end %>
-
-<%= form_with model: [ @user, @post, @post.comments.build ] do |form| %>
-  <p>
-    <%= form.label "Add a comment" %><br>
-    <%= form.text_area :body %>
-  </p>
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>

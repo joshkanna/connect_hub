@@ -1,0 +1,21 @@
+a {
+  text-decoration: none;
+}
+
+.seeMoreModal, .modal-title {
+  text-align: center;
+}
+
+.layout {
+  max-width: 50%;
+  margin: auto;
+}
+
+.main-layout {
+  max-width: 75%;
+}
+
+.posts-layout {
+  max-width: 75%;
+  margin: auto;
+}

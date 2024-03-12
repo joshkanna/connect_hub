@@ -1,20 +1,24 @@
-<h1 class="text-center"><%= pluralize(@users.count, "Result") %></h1>
-<%= render "search/form"%>
+<%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 
-<div class="container">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th><%= sort_link(@query, :username, "Username", default_order: :asc, class: "table-dark") %></th>
-      </tr>
-    </thead>
+<div class="layout">
+  <h1 class="text-center"><%= pluralize(@users.count, "Result") %></h1>
+  <%= render "search/form"%>
 
-    <tbody>
-      <% @users.each do |user| %>
-        <tr> 
-          <td><%= link_to user.username, profile_user_path(user), class: "table-dark" %></td>
+  <div class="container mt-2">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th><%= sort_link(@query, :username, "Username", default_order: :asc, class: "table-dark") %></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>  
+      </thead>
+
+      <tbody>
+        <% @users.each do |user| %>
+          <tr> 
+            <td><%= link_to user.username, profile_user_path(user), class: "table-dark" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>  
+</div>

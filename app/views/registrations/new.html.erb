@@ -32,7 +32,7 @@
     <%= form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control border", id: "validationDefaultPasswordConf", aria: { describedby: "inputGroupPrepend2" }, required: true %>
   </div>
 
-  <%= form.submit "Sign Up",  class: "btn btn-lg btn-block btn-warning mt-2 mb-2 fw-semibold" %>
+  <%= form.submit "Sign Up",  class: "btn btn-lg btn-block btn-danger mt-2 mb-2 fw-semibold" %>
     <p class="text-muted" style="color: white">Have an account? <%= link_to "Sign In", sign_in_path, class: "link-light" %></p>
   <% end %>
 

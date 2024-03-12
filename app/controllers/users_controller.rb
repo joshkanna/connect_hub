@@ -3,18 +3,19 @@ class UsersController < ApplicationController
 
   def profile
     @user = User.find(params[:id])
+    @posts = @user.posts.all
   end
 
   def send_friend_request
     receiver = User.find(params[:id])
     Current.user.sent_friend_requests.create(receiver: receiver, status: 'pending')
-    redirect_to profile_user_path(Current.user), notice: 'Friend request sent successfully!'
+    redirect_to profile_user_path(receiver)
   end
 
   def cancel_friend_request
     request = Current.user.sent_friend_requests.find(params[:request_id])
     request.destroy
-    redirect_to Current.user, notice: 'Friend Request Canceled'
+    redirect_to profile_user_path(User.find(params[:id]))
   end
 
   def accept_friend_request

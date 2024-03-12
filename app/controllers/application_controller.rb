@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
 
   def home
     if current_user
-      redirect_to profile_user_path(Current.user)
+      redirect_to main_path
     else
       redirect_to sign_in_path
     end
