@@ -1,0 +1,38 @@
+<div class="col">
+  <div class="p-3 md-5 mb-4 bg-body-tertiary">
+    <h3><%= link_to "@#{@user.username}", profile_user_path(@user), class: "link-light" %></h3>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <a href=<%= user_posts_path(@user) %> class="link-light">
+          <div class="row">
+            <div class="col-10">
+              <p>Posts</p>
+            </div>
+            <div class="col">
+              <p><%= @user.posts.count %></p>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="list-group-item">
+        <a href=<%= "#"  %> data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light">
+          <div class="row">
+            <div class="col-10">
+              <p>Friends</p>
+            </div>
+            <div class="col">
+              <p><%= @user.friends.count %></p>
+            </div>
+          </div>
+        </a>
+
+        <%= render 'shared/friends_modal' %>
+      </li>
+    </ul>
+
+    <div class="d-grid mt-3">
+      <%= button_to "Post", new_user_post_path(@user), class: "btn btn-danger", method: :get, style: "width: 100%;" %>
+    </div>
+  </div>
+</div>

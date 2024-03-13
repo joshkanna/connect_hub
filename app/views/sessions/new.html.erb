@@ -9,12 +9,14 @@
     
   </div>
 
-  <div class="form-label-group">
-    <%= form.text_field :username_or_email, placeholder: "Username or Email", class: "form-control", id: "validationDefaultUsername", aria: { describedby: "inputGroupPrepend2" }, required: true %>
+  <div class="form-label-group mb-5">
+    <label for="validationDefaultUsername" class="mb-2">Email or Username</label>
+    <%= form.text_field :username_or_email, placeholder: "Your email address or username", class: "form-control", id: "validationDefaultUsername", aria: { describedby: "inputGroupPrepend2" }, required: true %>
   </div>
 
-  <div class="form-label-group">
-    <%= form.password_field :password, placeholder: "Password", class: "form-control", id: "input-password", id: "validationDefaultPassword", aria: { describedby: "inputGroupPrepend2" }, required: true %>
+  <div class="form-label-group mb-5">
+    <label for="validationDefaultPassword" class="mb-2" >Password</label>
+    <%= form.password_field :password, placeholder: "Your password", class: "form-control", id: "input-password",  id: "validationDefaultPassword", aria: { describedby: "inputGroupPrepend2" }, required: true %>
   </div>
 
   <%= form.submit "Log In",  class: "btn btn-lg btn-block btn-danger mt-2 mb-2 fw-semibold" %>

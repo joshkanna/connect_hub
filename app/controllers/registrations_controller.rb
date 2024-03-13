@@ -14,6 +14,7 @@ class RegistrationsController < ApplicationController
       flash[:notice] = "Succesfully created account."
       redirect_to root_path
     else
+      @user.destroy
       render :new, status: :unprocessable_entity
     end
   end

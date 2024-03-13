@@ -6,24 +6,36 @@
 
     <p><%= @bio %></p>
 
-    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(@user.friends.count, "friend") %></a>
-
-    <%= render 'shared/friends_modal' %>
 
 
     <% if Current.user != @user && !Current.user.friends.include?(@user) %>
+      <p><%= pluralize(@user.friends.count, "friend") %></p>
       <div class="d-grid mt-4">
-        <% if Current.user.sent_friend_requests.find_by(receiver_id: @user.id).nil? %>
+        <% if Current.user.sent_friend_requests.pending.find_by(receiver_id: @user.id).nil? %>
           <%= button_to "Send Friend Request", send_friend_request_user_path(@user), method: :post, type: "button", class: "btn btn-danger", style: "width: 100%;" %>
         <% else %>
           <%= button_to "Cancel Friend Request", cancel_friend_request_user_path(@user, request_id: Current.user.sent_friend_requests.find_by(receiver_id: @user.id).id), method: :delete, data: { confirm: 'Are you sure you want to cancel this friend request?' }, class: "btn btn-outline-danger", style: "width: 100%;" %>
         <% end %>
       </div>
-    <% elsif Current.user == @user %>
+    <% elsif Current.user != @user %>
+
+      <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(@user.friends.count, "friend") %></a>
+
+      <%= render 'shared/friends_modal' %>
+
       <div class="d-grid mt-4">
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit Profile</button>
+        <%= button_to "Remove Friend", remove_friend_user_path(@user), method: :delete, data: { confirm: "Are you sure you want to remove this friend?"}, class: "btn btn-danger", style: "width: 100%;" %>
       </div>
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+    <% else %>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(@user.friends.count, "friend") %></a>
+
+      <%= render 'shared/friends_modal' %>
+
+      <div class="d-grid mt-4">
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editProfile">Edit Profile</button>
+      </div>
+      <div class="modal fade" id="editProfile"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <%= form_with(model: @user, url: user_path(@user)) do |form| %>
@@ -35,9 +47,7 @@
                 <%= form.text_field :bio, class: "form-control" %>
               </div>
               <div class="modal-footer">
-                <div class="d-grid">
-                  <%= form.submit "Done",  class: "btn btn-danger", data: { bs: { dismiss: "modal" } }  %> 
-                </div>
+                <%= form.submit "Done",  class: "btn btn-danger col", data: { bs: { dismiss: "modal" } }  %> 
               </div>
             <% end %>
           </div>
@@ -48,17 +58,30 @@
 
   <div class="p-3 md-5 mb-4 bg-body-tertiary">
     <h3>Posts</h3>
-    <ul class="list-group">
-    <% @posts.reverse.each do |post| %>
-      <a href=<%= "posts/#{post.id}" %>>
-        <li class="list-group-item">
-          <p>@<%= @user.username %></p>
-          <h5><%=post.title%></h4>
-          <p><%=post.body%></p>
-          <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
-        </li>
-      </a>
+    <% if @user == Current.user || Current.user.friends.include?(@user) %>
+      <% if !@posts.empty? %>
+        <ul class="list-group">
+          <% @posts.reverse.each do |post| %>
+            <a href=<%= "posts/#{post.id}" %>>
+              <li class="list-group-item">
+                <p>@<%= @user.username %></p>
+                <h5><%=post.title%></h4>
+                <p><%=post.body%></p>
+                <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
+              </li>
+            </a>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No Posts Yet</p>
+        <% if @user == Current.user %>
+          <div class="d-grid">
+            <%= button_to "Make your first Post", new_user_post_path(@user), class: "btn btn-danger col-12", method: :get %>
+          </div>
+        <% end%>
+      <% end %>
+    <% else %>
+      <p>Only friends can see this account's posts.</p>
     <% end %>
-  </ul>
   </div>
 </div>

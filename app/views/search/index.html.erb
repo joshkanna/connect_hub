@@ -13,10 +13,12 @@
       </thead>
 
       <tbody>
-        <% @users.each do |user| %>
-          <tr> 
-            <td><%= link_to user.username, profile_user_path(user), class: "table-dark" %></td>
-          </tr>
+        <% @users.each do |user|%>
+          <% unless user == Current.user %>
+            <tr> 
+              <td><%= link_to user.username, profile_user_path(user), class: "table-dark" %></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>

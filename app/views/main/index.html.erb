@@ -1,57 +1,32 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 <div class="main-layout">
   <div class="row">
-    <div class="col">
-      <div class="p-3 md-5 mb-4 bg-body-tertiary">
-        <h3><%= link_to "@#{@user.username}", profile_user_path(@user), class: "link-light" %></h3>
-
-        <ul class="list-group">
-          <li class="list-group-item">
-            <a href=<%= user_posts_path(@user) %> class="link-light">
-              <div class="row">
-                <div class="col-10">
-                  <p>Posts</p>
-                </div>
-                <div class="col">
-                  <p><%= @user.posts.count %></p>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li class="list-group-item">
-            <a href=<%= "#"  %> data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light">
-              <div class="row">
-                <div class="col-10">
-                  <p>Friends</p>
-                </div>
-                <div class="col">
-                  <p><%= @user.friends.count %></p>
-                </div>
-              </div>
-            </a>
-
-            <%= render 'shared/friends_modal' %>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <%= render 'shared/offset_profile_box' %>  
 
     <div class="col-8">
       <div class="p-3 md-5 mb-4 bg-body-tertiary">
         <h3>Feed</h3>
 
         <ul class="list-group">
-          <% Post.all.reverse.each do |post| %>
-            <% if post.user_id != @user.id && @user.friend_ids.include?(post.id) %>
-              <a href=<%= "users/#{post.user_id}/posts/#{post.id}" %>>
-                <li class="list-group-item">
-                  <p>@<%= User.find(post.user_id).username %></p>
-                  <h5><%=post.title%></h4>
-                  <p><%=post.body%></p>
-                  <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
-                </li>
-              </a>
+          <% if !@user.friends.empty? %>
+            <% unless @friends_w_posts.empty? %>
+              <% Post.all.reverse.each do |post| %>
+                <% if post.user_id != @user.id && @user.friend_ids.include?(post.id) %>
+                  <a href=<%= "users/#{post.user_id}/posts/#{post.id}" %>>
+                    <li class="list-group-item">
+                      <p>@<%= User.find(post.user_id).username %></p>
+                      <h5><%=post.title%></h4>
+                      <p><%=post.body%></p>
+                      <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
+                    </li>
+                  </a>
+                <% end %>
+              <% end %>
+            <% else %>
+              <p>None of your friends have posted yet!</p>
             <% end %>
+          <% else %>
+            Make friends to see their posts on your feed!
           <% end %>
         </ul>
       </div>

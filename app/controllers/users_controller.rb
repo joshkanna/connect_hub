@@ -33,12 +33,22 @@ class UsersController < ApplicationController
     Friendship.create(user: request.sender, friend: request.receiver)
     Friendship.create(user: request.receiver, friend: request.sender)
     
-    redirect_to profile_user_path(Current.user), notice: 'Friend request accepted!'
+    redirect_to main_path, notice: 'Friend request accepted!'
   end
 
   def reject_friend_request
     request = FriendRequest.find(params[:request_id])
     request.update(status: 'rejected')
+  end
+
+  def remove_friend
+    friend = User.find(params[:id])
+    friendship = Friendship.find_by(user_id: Current.user.id, friend_id: friend.id)
+    friendship.destroy
+    friendship = Friendship.find_by(user_id: friend.id, friend_id: Current.user.id)
+    friendship.destroy
+
+    redirect_to profile_user_path(friend)
   end
 
   private

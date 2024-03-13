@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       post "accept_friend_request"
       post "reject_friend_request"
       delete "cancel_friend_request", to: "users#cancel_friend_request"
+      delete "remove_friend", to: "users#remove_friend"
     end
   end
 end
