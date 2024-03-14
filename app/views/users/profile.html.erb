@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 
 <div class="layout">
-  <div class="p-3 md-5 mb-4 bg-body-tertiary">
+  <div class="md-5 mb-4">
     <h3 style="color: white">@<%= @user.username %></h3>
 
     <p><%= @bio %></p>
@@ -56,7 +56,7 @@
     <% end %>
   </div>
 
-  <div class="p-3 md-5 mb-4 bg-body-tertiary">
+  <div class="md-5 mb-4">
     <h3>Posts</h3>
     <% if @user == Current.user || Current.user.friends.include?(@user) %>
       <% if !@posts.empty? %>
@@ -70,6 +70,11 @@
                 <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
               </li>
             </a>
+          <% end %>
+          <% if @user == Current.user %>
+            <div class="d-grid mt-3">
+            <%= button_to "Post", new_user_post_path(@user), class: "btn btn-danger col-12", method: :get %>
+          </div>
           <% end %>
         </ul>
       <% else %>
