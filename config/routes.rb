@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   delete "logout", to: "sessions#destroy"
 
+
   resources :users do
     resources :posts do
       resources :comments
@@ -36,7 +37,6 @@ Rails.application.routes.draw do
       post "reject_friend_request"
       delete "cancel_friend_request", to: "users#cancel_friend_request"
       delete "remove_friend", to: "users#remove_friend"
-      delete "delete", to: "users#delete"
     end
   end
 end

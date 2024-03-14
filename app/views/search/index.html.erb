@@ -14,7 +14,7 @@
 
       <tbody>
         <% @users.each do |user|%>
-          <% unless user == Current.user %>
+          <% unless user == Current.user || user.username[0] =~ /[[:upper:]]/ %>
             <tr> 
               <td><%= link_to user.username, profile_user_path(user), class: "table-dark" %></td>
             </tr>

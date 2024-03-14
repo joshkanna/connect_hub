@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in!
+  
 
   def profile
     @user = User.find(params[:id])
@@ -51,15 +52,6 @@ class UsersController < ApplicationController
     redirect_to profile_user_path(friend)
   end
 
-
-  def delete
-    @user = User.find(params[:id])
-    @user.destroy
-
-    redirect_to sign_in_path, status: :see_other
-  end
-
-  
   private
   def user_params
     params.require(:user).permit(:bio)

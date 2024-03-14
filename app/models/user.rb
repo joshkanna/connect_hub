@@ -1,7 +1,9 @@
 class User < ApplicationRecord
   has_secure_password
 
-  validates :username, presence: true, uniqueness: true
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+
+  before_validation :downcase_name
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: "must be a valid email address"}
 
 
@@ -22,5 +24,11 @@ class User < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     ["friends", "friendships", "posts"]
+  end
+
+  private
+
+  def downcase_name
+    self.username = username.downcase if username.present?
   end
 end
