@@ -13,12 +13,14 @@
         </div>
       <% end %>
 
-      <div class="mb-3">
-        <%= form.password_field :password, placeholder: "Password", class: "form-control" %>
+      <div class="form-label-group mb-3">
+        <label for="regPassword" class="mb-2">Password</label>
+        <%= form.password_field :password, placeholder: "Password", class: "form-control border", id: "regPassword", required: true %>
       </div>
 
-      <div class="mb-3">
-        <%= form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control" %>
+      <div class="form-label-group mb-3">
+        <label for="regPasswordConf" class="mb-2">Confirm Password</label>
+        <%= form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control", id: "regPasswordConf", required: true %>
       </div>
 
       <div class="mb-3">
