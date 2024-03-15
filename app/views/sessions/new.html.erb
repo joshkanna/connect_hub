@@ -16,11 +16,14 @@
 
   <div class="form-label-group mb-5">
     <label for="validationDefaultPassword" class="mb-2" >Password</label>
-    <%= form.password_field :password, placeholder: "Your password", class: "form-control", id: "input-password",  id: "validationDefaultPassword", aria: { describedby: "inputGroupPrepend2" }, required: true %>
+    <%= form.password_field :password, placeholder: "Your password", class: "form-control mb-2", id: "input-password",  id: "validationDefaultPassword", aria: { describedby: "inputGroupPrepend2" }, required: true %>
+    <p><%= link_to "Forgot Password?", new_password_reset_path, class: "link-light" %></p>
   </div>
-
-  <%= form.submit "Log In",  class: "btn btn-lg btn-block btn-danger mt-2 mb-2 fw-semibold" %>
-
+  
+  <div class="d-grid">
+    <%= form.submit "Log In",  class: "btn btn-danger mt-3 mb-2 fw-semibold" %>
+  </div>
+  
   <p class="text-muted mb-4" style="color: white">Don't have an account? <%= link_to "Sign Up", sign_up_path, class: "link-light" %></p>
   
 <% end %>

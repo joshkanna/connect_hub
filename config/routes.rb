@@ -11,9 +11,6 @@ Rails.application.routes.draw do
 
   root to: "application#home"
 
-  get "password", to: "passwords#edit", as: :edit_password
-  patch "password", to: "passwords#update"
-
   get "main", to: "main#index"
   get "/sign_up", to: "registrations#new"
   post "/sign_up", to: "registrations#create"
@@ -22,6 +19,8 @@ Rails.application.routes.draw do
   post "sign_in", to: "sessions#create"
 
   delete "logout", to: "sessions#destroy"
+
+  resources :password_resets
 
 
   resources :users do
