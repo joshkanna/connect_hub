@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :sent_friend_requests, class_name: 'FriendRequest', foreign_key: :sender_id
   has_many :received_friend_requests, class_name: 'FriendRequest', foreign_key: :receiver_id
 
-  
+  has_one_attached :avatar
 
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "email", "id", "id_value", "password_digest", "updated_at", "username"]

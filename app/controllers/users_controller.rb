@@ -5,12 +5,20 @@ class UsersController < ApplicationController
   def profile
     @user = User.find(params[:id])
     @posts = @user.posts.all
+
     @bio = @user.bio
+  end
+
+  def remove_profile_pic
+    @user = User.find(params[:id])
+    @user.avatar.purge
+    redirect_to profile_user_path(@user)
   end
 
   def update
     @user = User.find(params[:id])
-    
+    @user.avatar.purge if @user.avatar.attached?
+
     if @user.update(user_params)
       redirect_to profile_user_path(@user)
     end
@@ -54,6 +62,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:bio)
+    params.require(:user).permit(:avatar, :bio)
   end
 end

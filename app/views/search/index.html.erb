@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 
 <div class="layout">
-  <h1 class="text-center"><%= pluralize(@users.count-2, "Result") %></h1>
+  <h1 class="text-center"><%= pluralize(@users.count-1, "Result") %></h1>
   <%= render "search/form"%>
 
   <div class="container mt-2">
