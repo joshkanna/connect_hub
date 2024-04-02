@@ -1,0 +1,138 @@
+body, html {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.deleteModal, .modal-title {
+  text-align: center;
+}
+
+
+.layout {
+  max-width: 100%;
+  margin: auto;
+}
+
+.main-layout {
+  max-width: 100%;
+  height: 920px;
+}
+
+@media (min-width: 700px) {
+  .layout {
+    max-width: 80%;
+  }
+}
+
+@media (min-width: 769px) {
+  .layout {
+    max-width: 648px;
+    margin: auto;
+  }
+}
+
+@media (min-width:  992px) {
+  .main-layout {
+    max-width: 75%;
+    margin: 0;
+  }
+}
+
+.scrollarea {
+  overflow-y: auto;
+}
+
+.chat-room::-webkit-scrollbar {
+  display: none;
+}
+
+.row.messaging{
+  height: calc(100vh - 104px);
+  width: 75vw;
+  position: fixed;
+  .left-bar {
+    height: 100%;
+  }
+
+  .right-bar {
+    height: 100%;
+    .chat-room {
+      height: calc(100% - 133px);
+    }
+    .row.border {
+      bottom: 0;
+    }
+  }
+}
+
+
+.new-message {
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.message:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Add margin to separate messages */
+.message {
+  margin-bottom: 10px;
+}
+
+/* Style messages from the current user */
+.message.me .content-container {
+  float: right;
+}
+
+.message.me .content {
+  background-color: blue;
+  border-radius: 15px 15px 0 15px;
+}
+
+.message.me .time {
+  float: right;
+}
+
+/* Style messages from other users */
+.message .content-container {
+  float: left;
+}
+
+.message .content {
+  background-color: #3B3B3B;
+  border-radius: 15px 15px 15px 0;
+  padding: 10px;
+  width: auto;
+}
+
+.message .time {
+  float: left;
+}
+
+
+/* Set overflow-y to auto for the chat-room to enable scrolling */
+
+.chat-box {
+
+  width: 100%;
+  input[type=text] {
+    height: 45px;
+    font-size: 18px;
+    padding: 8px;
+  }
+  .btn {
+    height: 45px;
+  }
+}
+
+
+
+
+

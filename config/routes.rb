@@ -22,14 +22,19 @@ Rails.application.routes.draw do
 
   resources :password_resets
 
+  resources :messages
 
   resources :users do
+    resources :chats
     resources :posts do
       resources :comments
     end
 
+    
+
     member do
       get "profile"
+      get "inbox"
       patch "update"
       post "send_friend_request"
       post "accept_friend_request"

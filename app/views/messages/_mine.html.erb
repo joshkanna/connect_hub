@@ -1,0 +1,12 @@
+<div class="message mb-3 me">
+  <div class="content-container">
+  
+    <div class="content">
+      <%= message.content %>
+    </div>
+
+    <div class="time text-muted">
+      <%= message.created_at.strftime("%d %b %Y, %l:%M %p") %>
+    </div>
+  </div>
+</div>
