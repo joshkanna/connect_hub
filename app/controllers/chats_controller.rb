@@ -12,29 +12,38 @@ class ChatsController < ApplicationController
   def new
     @user = User.find(params[:user_id])
    
-    @user_2 = User.find_by(id: params[:user2_id])
-    puts @user_2.id
+    @user_2 = User.find(params[:user2_id])
+    
 
-    @chat = @user.chats.new
+    @chat = @user.chats.new(user_id: @user.id, user2_id: @user_2.id)
     @message = @chat.messages.new
 
-    
   end
 
   def create
     @user = User.find(params[:user_id])
    
 
-    @user_2 = User.find_by(id: params[:user2_id])
-    puts @user.id
+    @user_2 = User.find_by(id: params[:chat][:user2_id])
+
+    if @user_2.nil?
+      flash[:error] = "User not found"
+      redirect_to root_path
+      return
+    end
+
+    puts "User id: #{@user.id}"
+
+    puts "User 2 id: #{@user_2.id}"
     @chat = @user.chats.new(user_id: @user.id, user2_id: @user_2.id)
-
-    @message = @chat.messages.build(chat_params[:message_attributes])
-
-    if @chat.save && @message.save
-      redirect_to chat_path(@chat)
+    puts "User2 id again: #{@chat.user2_id}"
+    @chat.save
+    @message = @chat.messages.build(user_id: @user.id, chat_id: @chat.id, content: chat_params[:message_attributes][:content])
+    puts "Message User id: #{@message.user_id}"
+    if @message.save
+      redirect_to user_chat_path(Current.user, @chat)
     else
-      # Handle error if chat or message creation fails
+
       flash[:error] = "Failed to create chat or message"
       redirect_to root_path
     end

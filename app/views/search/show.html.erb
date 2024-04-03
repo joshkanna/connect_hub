@@ -16,7 +16,7 @@
         <% @users.each do |user|%>
           <% unless user == Current.user || user.username[0] =~ /[[:upper:]]/ %>
             <tr> 
-              <td><%= link_to user.username, new_user_chat_path(user_id: Current.user.id), method: :post, class: "table-dark" %></td>
+              <td><%= link_to user.username, new_user_chat_path(user_id: Current.user.id, user2_id: user.id), method: :post, class: "table-dark" %></td>
               <%= user.id %>
             </tr>
           <% end %>

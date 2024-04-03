@@ -21,7 +21,6 @@ class MessagesController < ApplicationController
 
     if @message.save
       SendMessageJob.perform_later(@message)
-
     else
       render :new, status: :unprocessable_entity
     end

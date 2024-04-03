@@ -3,4 +3,9 @@ class SearchController < ApplicationController
     @query = User.ransack(params[:q])
     @users = @query.result(distinct: true)
   end
+
+  def show
+    @query = User.ransack(params[:q])
+    @users = @query.result(distinct: true)
+  end
 end

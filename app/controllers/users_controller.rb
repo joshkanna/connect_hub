@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def inbox
     @user = User.find(params[:id])
-    @chats = @user.chats.all
+    @chats = @user.chats.all + Chat.where(user2_id: @user.id)
   end
 
   def remove_profile_pic
