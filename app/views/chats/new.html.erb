@@ -1,0 +1,17 @@
+<%= form_with(model: [@user, @chat], local: true) do |form| %>
+
+
+  <%= form.hidden_field :user2_id, value: @user_2.id %>
+
+  <%= form.fields_for :message_attributes, @message do |message_form| %>
+    <%= message_form.label :content, "Message Content" %>
+    <%= message_form.text_area :content, class: "form-control" %>
+  <% end %>
+
+
+  <%= form.submit "Send Message" %>
+<% end %>
+
+
+<%= "@chat.user_id: #{@chat.user_id}" %>
+<%= "@chat.user2_id: #{@chat.user2_id}" %>

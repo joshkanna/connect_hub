@@ -1,9 +1,18 @@
 import consumer from "channels/consumer"
 
-consumer.subscriptions.create("ChatChannel", {
+const chat_element = document.getElementById('chat-id');
+const chat_id = chat_element.getAttribute('data-chat-id');
+
+console.log(consumer.subscriptions)
+
+consumer.subscriptions.subscriptions.forEach((subscription) => {
+  consumer.subscriptions.remove(subscription)
+});
+
+consumer.subscriptions.create({channel: "ChatChannel", chat_id: chat_id },  {
   connected() {
+    console.log("connected to " + chat_id)
     // Called when the subscription is ready for use on the server
-    console.log("Connected...")
   },
 
   disconnected() {
@@ -11,6 +20,32 @@ consumer.subscriptions.create("ChatChannel", {
   },
 
   received(data) {
-    // Called when there's incoming data on the websocket for this channel
+    console.log(data)
+
+    const element = document.getElementById('user-id');
+    console.log(element);
+    const user_id = Number(element.getAttribute('data-user-id'));
+    console.log(user_id);
+    let html;
+
+    if (user_id === data.message.user_id) {
+      html = data.mine
+    } else {
+      html = data.theirs
+    }
+
+    const messageContainer = document.getElementById('messages');
+    messageContainer.innerHTML = messageContainer.innerHTML + html;
+    console.log('hi');
+
+    
+
+    function scrollChatRoomToBottom() {
+      var chatRoom = document.querySelector('.chat-room');
+      chatRoom.scrollTop = chatRoom.scrollHeight;
+    };
+    
+    
+    scrollChatRoomToBottom();
   }
 });

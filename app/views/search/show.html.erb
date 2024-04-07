@@ -1,0 +1,27 @@
+<%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
+
+<div class="layout">
+  <h1 class="text-center"><%= pluralize((@users.without(Current.user)).count, "Result") %></h1>
+  <%= render "search/form"%>
+
+  <div class="container mt-2">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th><%= sort_link(@query, :username, "Username", default_order: :asc, class: "table-dark") %></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @users.each do |user|%>
+          <% unless user == Current.user || user.username[0] =~ /[[:upper:]]/ %>
+            <tr> 
+              <td><%= link_to user.username, new_user_chat_path(user_id: Current.user.id, user2_id: user.id), method: :post, class: "table-dark" %></td>
+              <%= user.id %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>  
+</div>

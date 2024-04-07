@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'search', to: "search#index"
+  get "new_chat", to: "search#show"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -22,14 +23,19 @@ Rails.application.routes.draw do
 
   resources :password_resets
 
+  resources :messages
 
   resources :users do
+    resources :chats
     resources :posts do
       resources :comments
     end
 
+    
+
     member do
       get "profile"
+      get "inbox"
       patch "update"
       post "send_friend_request"
       post "accept_friend_request"

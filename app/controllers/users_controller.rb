@@ -9,6 +9,11 @@ class UsersController < ApplicationController
     @bio = @user.bio
   end
 
+  def inbox
+    @user = User.find(params[:id])
+    @chats = @user.chats.all + Chat.where(user2_id: @user.id)
+  end
+
   def remove_profile_pic
     @user = User.find(params[:id])
     @user.avatar.purge
