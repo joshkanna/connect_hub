@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="message mb-3 <%= 'me' if message.user == Current.user %>">
   
   <div class="content-container">
@@ -22,11 +23,22 @@
         <%= message.content %>
       </div>
     <% end %>
+=======
+
+<div class="message mb-3 <%= 'me' if message.user == Current.user %>">
+  
+  <div class="content-container">
+    <div class="content"> 
+      <%= message.content %>
+    </div>
+    
+>>>>>>> testing
     <div class="time text-muted">
       <%= message.created_at.strftime("%d %b %Y, %l:%M %p") %>
     </div>
   </div>
 </div>
+<<<<<<< HEAD
 
 <div class="modal fade" id="deleteModal-<%= message.id %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -42,3 +54,5 @@
     </div>
   </div>
 </div>
+=======
+>>>>>>> testing

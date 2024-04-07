@@ -5,6 +5,11 @@ class ChatsController < ApplicationController
     @chats = @user.chats.all + Chat.where(user2_id: @user.id)
     
     @chat = Chat.find(params[:id])
+<<<<<<< HEAD
+=======
+    
+    @messages = @chat.messages.sort_by { |message| message.created_at }
+>>>>>>> testing
     @user_2 = User.find(@chat.user2_id)
 
   end

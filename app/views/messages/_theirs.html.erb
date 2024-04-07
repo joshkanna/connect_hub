@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="message mb-3">
   <div class="content-container">
   
@@ -7,6 +8,19 @@
 
     <div class="time text-muted">
       <%= message.created_at.strftime("%d %b %Y, %l:%M %p") %>
+=======
+<div id=<%= "message-#{message.id}" %>>
+  <div class="message mb-3">
+    <div class="content-container">
+    
+      <div class="content">
+        <%= message.content %>
+      </div>
+
+      <div class="time text-muted">
+        <%= message.created_at.strftime("%d %b %Y, %l:%M %p") %>
+      </div>
+>>>>>>> testing
     </div>
   </div>
 </div>

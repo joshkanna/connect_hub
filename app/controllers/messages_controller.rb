@@ -27,8 +27,16 @@ class MessagesController < ApplicationController
   end
   
   def destroy
+<<<<<<< HEAD
     @message = Message.find(params[:id])
     @message.destroy
+=======
+    
+    @message = Message.find(params[:id])
+    @chat = @message.chat
+    DeleteMessageJob.perform_later(@message)
+    redirect_to user_chat_path(@chat), status: :see_other
+>>>>>>> testing
   end
 
   private
