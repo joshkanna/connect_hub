@@ -57,9 +57,9 @@ Rails.application.configure do
   config.active_storage.service = :amazon
 
   # Mount Action Cable outside main process or domain.
-  # config.action_cable.mount_path = nil
-  # config.action_cable.url = "wss://example.com/cable"
-  # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
+  config.action_cable.mount_path = nil
+  config.action_cable.url = "wss://connecthub-nju3.onrender.com/cable"
+  config.action_cable.allowed_request_origins = [ "http://connecthub-nju3.onrender.com", /http:\/\/connecthub-nju3.onrender.com.*/ ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
