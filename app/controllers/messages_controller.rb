@@ -17,10 +17,11 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     @message.user = User.find(params[:message][:user_id])
-    @message.chat = Chat.find(params[:message][:chat_id])
+
 
     if @message.save
       SendMessageJob.perform_later(@message)
+      redirect_to user_chat_path(user_id: @message.user.id, id: @message.chat.id)
     else
       render :new, status: :unprocessable_entity
     end

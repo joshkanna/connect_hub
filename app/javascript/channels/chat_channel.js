@@ -23,9 +23,9 @@ consumer.subscriptions.create({channel: "ChatChannel", chat_id: chat_id },  {
     console.log(data)
 
     const element = document.getElementById('user-id');
-    console.log(element);
+  
     const user_id = Number(element.getAttribute('data-user-id'));
-    console.log(user_id);
+ 
     let html;
 
     if (user_id === data.message.user_id) {
@@ -36,7 +36,6 @@ consumer.subscriptions.create({channel: "ChatChannel", chat_id: chat_id },  {
 
     const messageContainer = document.getElementById('messages');
     messageContainer.innerHTML = messageContainer.innerHTML + html;
-    console.log('hi');
 
     
 
