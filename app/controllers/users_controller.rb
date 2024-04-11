@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in!
+
   
 
   def profile
@@ -31,13 +32,23 @@ class UsersController < ApplicationController
 
   def send_friend_request
     receiver = User.find(params[:id])
-    Current.user.sent_friend_requests.create(receiver: receiver, status: 'pending')
+    @request = Current.user.sent_friend_requests.create(receiver: receiver, status: 'pending')
+    
+
+    SendNotificationJob.perform_later(@request)
+    
     redirect_to profile_user_path(receiver)
   end
 
   def cancel_friend_request
     request = Current.user.sent_friend_requests.find(params[:request_id])
+    request_html = ApplicationController.render(partial: 'shared/notifications', locals: {request: request })
+
+
+    ActionCable.server.broadcast("notifications_channel", { action: "delete", request: request, request_html: request_html })
+
     request.destroy
+
     redirect_to profile_user_path(User.find(params[:id]))
   end
 

@@ -38,4 +38,8 @@ class ApplicationController < ActionController::Base
   def disable_nav
     @disable_nav = true
   end
+
+  def refresh_page
+    @refresh_page = true
+  end
 end

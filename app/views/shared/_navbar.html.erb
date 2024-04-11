@@ -1,3 +1,5 @@
+<div id="user-id" data-user-id="<%= Current.user.id %>"></div>
+
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-5">
   <div class="container">
     <%= link_to "ConnectHub", root_path, class: "navbar-brand" %>
@@ -24,25 +26,40 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Notifications
             </a>
-            <ul class="dropdown-menu">
-              <% if !Current.user.received_friend_requests.pending.empty? %>
-                <% Current.user.received_friend_requests.pending.each do |request| %>
-                  <li class="dropdown-item">
-                    <div class="row">
-                      <div class="col d-flex justify-content-start">
-                        <p><%= link_to "@#{request.sender.username}", profile_user_path(request.sender), class: "link-light" %></p>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Notifications</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+
+  
+              <ul class="dropdown-menu">
+                <div id="notifications">
+                  <% if !Current.user.received_friend_requests.pending.empty? %>
+                    <% Current.user.received_friend_requests.pending.each do |request| %>
+                      <div id=<%="request-#{request.id}"%>>
+                        <li class="dropdown-item">
+                          <div class="row p-2">
+                            <div class="col d-flex justify-content-start">
+                              <p><b><%= link_to "@#{request.sender.username}", profile_user_path(request.sender), class: "link-light" %></b> wants to be friends.</p>
+                            </div>
+                            <div class="col gap-2 d-flex justify-content-center">
+                              <%= button_to "Accept", accept_friend_request_user_path(Current.user, request_id: request.id), method: :post, class: "btn btn-success btn-sm" %>
+                              <%= button_to "Reject", reject_friend_request_user_path(Current.user, request_id: request.id), method: :post, class: "btn btn-danger btn-sm" %>
+                            </div>
+                          </div>
+                        </li>
                       </div>
-                      <div class="col gap-2 d-flex justify-content-end">
-                        <%= button_to "Accept", accept_friend_request_user_path(Current.user, request_id: request.id), method: :post, class: "btn btn-success btn-sm" %>
-                        <%= button_to "Reject", reject_friend_request_user_path(Current.user, request_id: request.id), method: :post, class: "btn btn-danger btn-sm" %>
-                      </div>
+                    <% end %>
+                  <% else %>
+                    <div id = "no_notification_message">
+                      <p class="p-4">No new notifications</p>
                     </div>
-                  </li>
-                <% end %>
-              <% else %>
-                <p class="p-4">No new notifications</p>
-              <% end %>
-            </ul>
+                  <% end %>
+                </div>
+              </ul>
+            </div>
+       
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

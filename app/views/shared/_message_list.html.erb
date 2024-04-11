@@ -7,9 +7,9 @@
 
   <div class="row scrollarea">
     <% unless @chats.nil? || @chats.empty?  %>
-      <div class="border-bottom">
+      <div class="list">
         <% @chats.each do |chat| %>
-          <a href= "<%= user_chat_path(Current.user, chat) %>" class="p-3 list-group-item link-light ">
+          <a href= "<%= user_chat_path(Current.user, chat) %>" class="p-3 list-group-item list-group-item-action border-bottom link-light">
             <% if Current.user == chat.user && chat.user2.avatar.present? %>
               <%= image_tag(User.find(chat.user2.id).avatar, class: "rounded-circle ", size: "45x45") + " @#{chat.user2.username}" %>
             <% elsif Current.user == chat.user2 && chat.user.avatar.present? %>

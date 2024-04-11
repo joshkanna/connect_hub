@@ -1,50 +1,55 @@
 import consumer from "channels/consumer"
 
-const chat_element = document.getElementById('chat-id');
-const chat_id = chat_element.getAttribute('data-chat-id');
+if (document.getElementById('chat-id')) {
+  const chat_element = document.getElementById('chat-id');
+  const chat_id = chat_element.getAttribute('data-chat-id');
 
-console.log(consumer.subscriptions)
 
-consumer.subscriptions.subscriptions.forEach((subscription) => {
-  consumer.subscriptions.remove(subscription)
-});
+  console.log(consumer.subscriptions)
 
-consumer.subscriptions.create({channel: "ChatChannel", chat_id: chat_id },  {
-  connected() {
-    console.log("connected to " + chat_id)
-    // Called when the subscription is ready for use on the server
-  },
+  consumer.subscriptions.subscriptions.forEach((subscription) => {
+    consumer.subscriptions.remove(subscription)
+  });
 
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
+  consumer.subscriptions.create({channel: "ChatChannel", chat_id: chat_id },  {
+    connected() {
+      console.log("connected to " + chat_id)
+      // Called when the subscription is ready for use on the server
+    },
 
-  received(data) {
-    console.log(data)
+    disconnected() {
+      // Called when the subscription has been terminated by the server
+    },
 
-    const element = document.getElementById('user-id');
+    received(data) {
+
+
+      const element = document.getElementById('user-id');
+    
+      const user_id = Number(element.getAttribute('data-user-id'));
   
-    const user_id = Number(element.getAttribute('data-user-id'));
- 
-    let html;
+      let html;
 
-    if (user_id === data.message.user_id) {
-      html = data.mine
-    } else {
-      html = data.theirs
+      if (user_id === data.message.user_id) {
+        html = data.mine
+      } else {
+        html = data.theirs
+      }
+
+      console.log(html);
+
+      const messageContainer = document.getElementById('messages');
+      messageContainer.innerHTML = messageContainer.innerHTML + html;
+
+      
+
+      function scrollChatRoomToBottom() {
+        var chatRoom = document.querySelector('.chat-room');
+        chatRoom.scrollTop = chatRoom.scrollHeight;
+      };
+      
+      
+      scrollChatRoomToBottom();
     }
-
-    const messageContainer = document.getElementById('messages');
-    messageContainer.innerHTML = messageContainer.innerHTML + html;
-
-    
-
-    function scrollChatRoomToBottom() {
-      var chatRoom = document.querySelector('.chat-room');
-      chatRoom.scrollTop = chatRoom.scrollHeight;
-    };
-    
-    
-    scrollChatRoomToBottom();
-  }
-});
+  });
+}

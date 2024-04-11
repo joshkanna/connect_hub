@@ -50,9 +50,9 @@ a {
 }
 
 .row.messaging{
-  height: calc(100vh - 104px);
-  width: 75vw;
-  position: fixed;
+  height: calc(100vh - 105px);
+  max-width: 100%;
+
   .left-bar {
     height: 100%;
   }

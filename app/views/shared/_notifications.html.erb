@@ -1,0 +1,13 @@
+<div id=<%="request-#{request.id}"%>>
+  <li class="dropdown-item">
+    <div class="row">
+      <div class="col d-flex justify-content-start">
+        <p><%= link_to "@#{request.sender.username}", profile_user_path(request.sender), class: "link-light" %></p>
+      </div>
+      <div class="col gap-2 d-flex justify-content-end">
+        <%= button_to "Accept", accept_friend_request_user_path(id: request.receiver.id, request_id: request.id), method: :post, class: "btn btn-success btn-sm" %>
+        <%= button_to "Reject", reject_friend_request_user_path(id: request.receiver.id, request_id: request.id), method: :post, class: "btn btn-danger btn-sm" %>
+      </div>
+    </div>
+  </li>
+</div>
