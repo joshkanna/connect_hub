@@ -33,22 +33,20 @@ class UsersController < ApplicationController
   def send_friend_request
     receiver = User.find(params[:id])
     @request = Current.user.sent_friend_requests.create(receiver: receiver, status: 'pending')
-    
+    @count = receiver.received_friend_requests.pending.count
 
-    SendNotificationJob.perform_later(@request)
+    SendNotificationJob.perform_later(@request, @count)
     
     redirect_to profile_user_path(receiver)
   end
 
   def cancel_friend_request
     request = Current.user.sent_friend_requests.find(params[:request_id])
-    request_html = ApplicationController.render(partial: 'shared/notifications', locals: {request: request })
+    receiver = request.receiver
+    count = receiver.received_friend_requests.pending.count - 1
 
-
-    ActionCable.server.broadcast("notifications_channel", { action: "delete", request: request, request_html: request_html })
-
-    request.destroy
-
+    DeleteNotificationJob.perform_later(request, count)
+    
     redirect_to profile_user_path(User.find(params[:id]))
   end
 
@@ -58,12 +56,13 @@ class UsersController < ApplicationController
     Friendship.create(user: request.sender, friend: request.receiver)
     Friendship.create(user: request.receiver, friend: request.sender)
     
-    redirect_to main_path, notice: 'Friend request accepted!'
+    redirect_to main_path
   end
 
   def reject_friend_request
     request = FriendRequest.find(params[:request_id])
     request.update(status: 'rejected')
+    redirect_to main_path
   end
 
   def remove_friend

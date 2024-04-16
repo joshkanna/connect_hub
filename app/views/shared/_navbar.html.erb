@@ -1,6 +1,11 @@
+<%= stylesheet_link_tag 'navbar', "data-turbo-track": "reload" %>
+
+
+<div id="navbar-top-id" data-navbar-top-id="top"></div>
+
 <div id="user-id" data-user-id="<%= Current.user.id %>"></div>
 
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-5">
+<nav class="navbar navbar-expand bg-dark navbar-dark mb-5">
   <div class="container">
     <%= link_to "ConnectHub", root_path, class: "navbar-brand" %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,58 +17,46 @@
           <%= link_to "Home", root_path, class: "nav-link active" %>
         </li>
 
-         <%= render 'search/form' %>
+    
       </ul>
 
      
 
-      <ul class="navbar-nav me-5 mb-2 mb-lg-0">
+      <ul class="navbar-nav me-5 mb-2 mb-lg-0 gap-2">
         <% if Current.user %>
-          <li class="nav-item">
-            <%= link_to "Inbox", inbox_user_path(Current.user), class: "nav-link"%>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Notifications
+          <li class="nav-item align-self-center">
+            <a class="nav-link" href="<%= search_path %>">
+            <span class="material-icons">
+                search
+            </span>
             </a>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-              <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Notifications</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-              </div>
-
-  
-              <ul class="dropdown-menu">
-                <div id="notifications">
-                  <% if !Current.user.received_friend_requests.pending.empty? %>
-                    <% Current.user.received_friend_requests.pending.each do |request| %>
-                      <div id=<%="request-#{request.id}"%>>
-                        <li class="dropdown-item">
-                          <div class="row p-2">
-                            <div class="col d-flex justify-content-start">
-                              <p><b><%= link_to "@#{request.sender.username}", profile_user_path(request.sender), class: "link-light" %></b> wants to be friends.</p>
-                            </div>
-                            <div class="col gap-2 d-flex justify-content-center">
-                              <%= button_to "Accept", accept_friend_request_user_path(Current.user, request_id: request.id), method: :post, class: "btn btn-success btn-sm" %>
-                              <%= button_to "Reject", reject_friend_request_user_path(Current.user, request_id: request.id), method: :post, class: "btn btn-danger btn-sm" %>
-                            </div>
-                          </div>
-                        </li>
-                      </div>
-                    <% end %>
-                  <% else %>
-                    <div id = "no_notification_message">
-                      <p class="p-4">No new notifications</p>
-                    </div>
-                  <% end %>
-                </div>
-              </ul>
-            </div>
-       
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= inbox_user_path(Current.user) %>">
+              <div class="row">
+             
+                <span class="material-icons">
+                  email
+                </span>
+                </div>
+            
+             
+
+            </a>
+          </li>
+          <%= render 'shared/notis_nav_link', partial: 'shared/notification_count', notis: 'shared/notifications', type: 'desktop' %>
+          
+
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <%= "@#{Current.user.username}" %>
+            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <% if Current.user.avatar.attached? %>
+                <%= image_tag(Current.user.avatar, class: "rounded-circle ", size: "30x30") %>
+              <% else %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                </svg>
+              <% end %>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><%= link_to "Profile", profile_user_path(Current.user), class: "dropdown-item"%> </li>

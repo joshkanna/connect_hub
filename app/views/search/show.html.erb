@@ -2,7 +2,12 @@
 
 <div class="layout">
   <h1 class="text-center"><%= pluralize((@users.without(Current.user)).count, "Result") %></h1>
-  <%= render "search/form"%>
+  <%= search_form_for(@query, url: search_path, method: :get, class: 'd-flex') do |f| %>
+    <%= f.search_field :username_or_email_i_cont_any, 
+    placeholder: "Search...",
+    class: "form-control me-2"%>
+    <%= f.submit "Search!", class: "btn btn-outline-danger" %>
+  <% end %>
 
   <div class="container mt-2">
     <table class="table table-hover">

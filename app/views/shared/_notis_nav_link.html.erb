@@ -1,0 +1,25 @@
+<li class="nav-item dropdown">
+  <a class="nav-link link-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    
+    <span class="material-icons">
+      notifications
+    </span>
+
+    <%= render partial, count: Current.user.received_friend_requests.pending.count %>
+  
+  </a>
+
+  <ul class="dropdown-menu">
+    <div id="notifications-<%= "#{type}" %>">
+      <% if !Current.user.received_friend_requests.pending.empty? %>
+        <% Current.user.received_friend_requests.pending.each do |request| %>
+          <%= render notis, request: request %>
+        <% end %>
+      <% else %>
+        <div class = "no_notification_message">
+          <p class="p-4">No new notifications</p>
+        </div>
+      <% end %>
+    </div>
+  </ul>
+</li>

@@ -1,0 +1,12 @@
+@media (max-width: 767px) {
+  body {
+    padding-top: 60px;
+    padding-bottom: 52px;
+  }
+}
+
+
+.material-icons, .material-symbols-outlined {
+  font-size: 30px;
+  position: relative;
+}

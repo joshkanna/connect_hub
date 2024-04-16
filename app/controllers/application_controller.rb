@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :current_user
   before_action :set_query
-
+  before_action :refresh_page
 
   def set_query
     @query = User.ransack(params[:q])

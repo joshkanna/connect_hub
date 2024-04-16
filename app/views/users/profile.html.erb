@@ -28,7 +28,7 @@
         <% if Current.user.sent_friend_requests.pending.find_by(receiver_id: @user.id).nil? %>
           <%= button_to "Send Friend Request", send_friend_request_user_path(@user), method: :post, type: "button", class: "btn btn-danger", style: "width: 100%;" %>
         <% else %>
-          <%= button_to "Cancel Friend Request", cancel_friend_request_user_path(@user, request_id: Current.user.sent_friend_requests.find_by(receiver_id: @user.id).id), method: :delete, data: { confirm: 'Are you sure you want to cancel this friend request?' }, class: "btn btn-outline-danger", style: "width: 100%;" %>
+          <%= button_to "Cancel Friend Request", cancel_friend_request_user_path(@user, request_id: Current.user.sent_friend_requests.find_by(receiver_id: @user.id)), method: :delete, data: { confirm: 'Are you sure you want to cancel this friend request?' }, class: "btn btn-outline-danger", style: "width: 100%;" %>
         <% end %>
       </div>
     <% elsif Current.user != @user %>

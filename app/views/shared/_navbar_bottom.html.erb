@@ -1,0 +1,70 @@
+<%= stylesheet_link_tag 'navbar_bottom', "data-turbo-track": "reload" %>
+
+<div id="navbar-bottom-id" data-navbar-bottom-id="bottom"></div>
+<div id="user-id" data-user-id="<%= Current.user.id %>"></div>
+
+<div class="container mb-5">
+  <nav class="navbar fixed-top bg-body-tertiary justify-content-center">
+    <h1><%= link_to "ConnectHub", root_path, class: "navbar-brand" %></h1>
+  </nav>
+</div>
+  
+<div class="container-fluid">
+  <ul class="nav bg-body-tertiary justify-content-center fixed-bottom">
+    <div class="row">
+
+      <div class="col">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="<%= root_path %>">
+            <span class="material-symbols-outlined">
+              home
+            </span>
+          </a>
+        </li>
+      </div>
+
+      <div class="col">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="<%= search_path %>">
+          <span class="material-icons">
+              search
+          </span>
+          </a>
+        </li>
+      </div>
+
+      <div class="col">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="<%= inbox_user_path(Current.user) %>">   
+            <span class="material-icons">
+              email
+            </span>
+          </a>
+        </li>
+      </div>
+
+      <div class="col">
+        <%= render 'shared/notis_nav_link', partial: 'shared/notification_bottom_count', notis: 'shared/notifications_mobile', type: 'mobile' %>
+      </div>
+
+        <div class="col">
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <% if Current.user.avatar.attached? %>
+                <%= image_tag(Current.user.avatar, class: "rounded-circle ", size: "30x30") %>
+              <% else %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                </svg>
+              <% end %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><%= link_to "Profile", profile_user_path(Current.user), class: "dropdown-item"%> </li>
+              <li><%= button_to "Log Out", logout_path, class: "dropdown-item", method: :delete %> </li>
+            </ul>
+          </li>
+        </div>
+    </div>
+  </ul>
+</div>

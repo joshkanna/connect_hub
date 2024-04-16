@@ -1,13 +1,34 @@
-<%= form_with(model: [@user, @chat], local: true) do |form| %>
+<%= stylesheet_link_tag "inbox", "data-turbo-track": "reload" %>
 
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex gap-2 align-items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+      </svg>
+      @<%= @chat.user2.username %>
+    </div>
+  </div>
 
-  <%= form.hidden_field :user2_id, value: @user_2.id %>
+  <div class="card-body">
+  </div>
 
-  <%= form.fields_for :message_attributes, @message do |message_form| %>
-    <%= message_form.label :content, "Message Content" %>
-    <%= message_form.text_area :content, class: "form-control" %>
-  <% end %>
+  <div class="card-footer align-items-end">
+    <%= form_with(model: [@user, @chat], local: true) do |form| %>
+    
+      <%= form.hidden_field :user2_id, value: @user_2.id %>
 
+      <div class="row">
+        <div class="input-group">
+          <%= form.fields_for :message_attributes, @message do |message_form| %>
+            <%= message_form.text_field :content, placeholder: "Send a message", class: "form-control" %>   
+            <%= message_form.submit "Send", class: "btn btn-primary", id: "save-button" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+ 
+  </div>
+</div>
 
-  <%= form.submit "Send Message" %>
-<% end %>
