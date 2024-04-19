@@ -49,7 +49,7 @@ consumer.subscriptions.create( { channel: "NotificationsChannel", navbar_id: nav
           notificationsContainer.innerHTML = notificationsContainer.innerHTML + html1;
       }
 
-      let rendered_notis = document.getElementById('rendered_notis');
+      let rendered_notis = document.getElementById('rendered_notis_desktop');
   
       rendered_notis.outerHTML = data.notification_count;
 
@@ -104,7 +104,7 @@ consumer.subscriptions.create( { channel: "NotificationsChannel", navbar_id: nav
           notificationsContainer.innerHTML = notificationsContainer.innerHTML + html1;
       }
 
-      let rendered_notis = document.getElementById('bottom_rendered_notis');
+      let rendered_notis = document.getElementById('rendered_notis_mobile');
       
       rendered_notis.outerHTML = data.notification_bottom_count;
       console.log(data.notification_bottom_count);

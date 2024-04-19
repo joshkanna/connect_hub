@@ -1,8 +1,8 @@
 <% if count > 0 %>
-  <span id="rendered_notis" class="position-absolute translate-middle badge rounded-pill bg-danger" >
+  <span id="rendered_notis_<%= "#{bar}" %>" class="position-absolute translate-middle badge rounded-pill bg-danger" >
     <%= count %> 
   </span>
 <% else %>
-  <span id="rendered_notis" class="position-absolute translate-middle badge rounded-pill bg-danger" style="display: none">
+  <span id="rendered_notis_<%= "#{bar}" %>" class="position-absolute translate-middle badge rounded-pill bg-danger d-none"">
   </span>
 <% end %>

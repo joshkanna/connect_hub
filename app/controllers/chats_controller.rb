@@ -4,7 +4,8 @@ class ChatsController < ApplicationController
     
     @user = User.find(params[:user_id])
     @chats = @user.chats.all + Chat.where(user2_id: @user.id)
-    
+    @chats = @chats.sort_by { |chat| chat.messages.last.updated_at }.reverse
+
     @chat = Chat.find(params[:id])
     
     @messages = @chat.messages.sort_by { |message| message.created_at }

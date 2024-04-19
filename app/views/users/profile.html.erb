@@ -64,29 +64,29 @@
 
                   <div class="col-auto">
                   
-                      <% if @user.avatar.attached? %>
-                        <div class="dropdown">
-                          <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <%= image_tag(@user.avatar, class: "rounded-circle ", size: "50x50") %>
-                          </a>
-                          <%= form.file_field :avatar, accept: 'image/*', style: "display: none;" %><br>
-                          <ul class="dropdown-menu">
-                            <li><%= form.label :avatar, "Upload picture", class: "dropdown-item" %></li>
-                            <li><%= link_to "Remove current picture", remove_profile_pic_user_path(@user), class: "dropdown-item link-danger", remote: true %></li>
-                          </ul>
-                        </div>
-                      <% else %>
+                    <% if @user.avatar.attached? %>
+                      <div class="dropdown">
+                        <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <%= image_tag(@user.avatar, class: "rounded-circle ", size: "50x50") %>
+                        </a>
+                        <%= form.file_field :avatar, accept: 'image/*', style: "display: none;" %><br>
+                        <ul class="dropdown-menu">
+                          <li><%= form.label :avatar, "Upload picture", class: "dropdown-item" %></li>
+                          <li><%= link_to "Remove current picture", remove_profile_pic_user_path(@user), class: "dropdown-item link-danger", remote: true %></li>
+                        </ul>
+                      </div>
+                    <% else %>
                       <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-</svg>
-                        </a>
-                        <%= form.file_field :avatar, accept: "image/*", style: "display: none;" %><br>
-                          <ul class="dropdown-menu">
-                            <li><%= form.label :avatar, "Upload picture", class: "dropdown-item" %></li>
-                          </ul>
-                      <% end %>
+                          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                      </a>
+                      <%= form.file_field :avatar, accept: "image/*", style: "display: none;" %><br>
+                        <ul class="dropdown-menu">
+                          <li><%= form.label :avatar, "Upload picture", class: "dropdown-item" %></li>
+                        </ul>
+                    <% end %>
                     
                   </div>
                 </div>

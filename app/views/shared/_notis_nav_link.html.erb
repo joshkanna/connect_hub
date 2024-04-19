@@ -5,15 +5,15 @@
       notifications
     </span>
 
-    <%= render partial, count: Current.user.received_friend_requests.pending.count %>
+    <%= render 'shared/notification_count', bar: bar, count: Current.user.received_friend_requests.pending.count %>
   
   </a>
 
   <ul class="dropdown-menu">
-    <div id="notifications-<%= "#{type}" %>">
+    <div id="notifications-<%= "#{bar}" %>">
       <% if !Current.user.received_friend_requests.pending.empty? %>
         <% Current.user.received_friend_requests.pending.each do |request| %>
-          <%= render notis, request: request %>
+          <%= render 'shared/notifications', bar: bar, request: request %>
         <% end %>
       <% else %>
         <div class = "no_notification_message">

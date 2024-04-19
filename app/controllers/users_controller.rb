@@ -13,6 +13,8 @@ class UsersController < ApplicationController
   def inbox
     @user = User.find(params[:id])
     @chats = @user.chats.all + Chat.where(user2_id: @user.id)
+
+    @chats = @chats.sort_by { |chat| chat.messages.last.updated_at }.reverse
   end
 
   def remove_profile_pic
@@ -23,7 +25,10 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.avatar.purge if @user.avatar.attached?
+
+    avatar_changed = user_params.key?(:avatar)
+
+    @user.avatar.purge if @user.avatar.attached? && avatar_changed
 
     if @user.update(user_params)
       redirect_to profile_user_path(@user)
@@ -34,7 +39,7 @@ class UsersController < ApplicationController
     receiver = User.find(params[:id])
     @request = Current.user.sent_friend_requests.create(receiver: receiver, status: 'pending')
     @count = receiver.received_friend_requests.pending.count
-
+    
     SendNotificationJob.perform_later(@request, @count)
     
     redirect_to profile_user_path(receiver)
