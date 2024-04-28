@@ -8,6 +8,8 @@ class PostsController < ApplicationController
 
   def show
     @user = User.find(params[:user_id])
+
+    @user.notifications.includes(:event).where(noticed_events: {record_type: 'Comment'}).unread.each { |notification| notification.mark_as_read if notification.record.post == @post }
     if @post.nil?
       redirect_to (user_posts_path), notice: "This post has been deleted."
     end
@@ -73,7 +75,7 @@ class PostsController < ApplicationController
 end
 
 def require_post_owner
-  if Current.user != @user
+  if current_user != @user
     redirect_to user_posts_path(@user)
   end
 end

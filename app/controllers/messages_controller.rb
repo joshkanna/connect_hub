@@ -20,7 +20,9 @@ class MessagesController < ApplicationController
 
 
     if @message.save
+      
       SendMessageJob.perform_later(@message)
+      NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
       redirect_to user_chat_path(user_id: @message.user.id, id: @message.chat.id)
     else
       render :new, status: :unprocessable_entity

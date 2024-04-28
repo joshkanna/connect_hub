@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   resources :messages
 
+  resources :notifications
+
   resources :users do
     resources :chats
     resources :posts do

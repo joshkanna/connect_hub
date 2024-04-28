@@ -10,7 +10,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <% if !Current.user.sent_friend_requests.find_by(receiver_id: @user) %>
+        <% if !current_user.sent_friend_requests.find_by(receiver_id: @user) %>
           <%= button_to "Send Friend Request", send_friend_request_user_path(@user), method: :post, class: "btn btn-primary" %>
         <% end %>
       </div>

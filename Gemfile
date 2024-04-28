@@ -78,3 +78,5 @@ gem "faker"
 gem 'ruby-vips', '~> 2.2', '>= 2.2.1'
 
 gem "aws-sdk-s3", require: false
+
+gem "noticed", "~> 2.2"

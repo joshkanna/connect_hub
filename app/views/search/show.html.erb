@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 
 <div class="layout">
-  <h1 class="text-center"><%= pluralize((@users.without(Current.user)).count, "Result") %></h1>
+  <h1 class="text-center"><%= pluralize((@users.without(current_user)).count, "Result") %></h1>
   <%= search_form_for(@query, url: search_path, method: :get, class: 'd-flex') do |f| %>
     <%= f.search_field :username_or_email_i_cont_any, 
     placeholder: "Search...",
@@ -19,9 +19,9 @@
 
       <tbody>
         <% @users.each do |user|%>
-          <% unless user == Current.user || user.username[0] =~ /[[:upper:]]/ %>
+          <% unless user == current_user || user.username[0] =~ /[[:upper:]]/ %>
             <tr> 
-              <td><%= link_to user.username, new_user_chat_path(user_id: Current.user.id, user2_id: user.id), method: :post, class: "table-dark" %></td>
+              <td><%= link_to user.username, new_user_chat_path(user_id: current_user.id, user2_id: user.id), method: :post, class: "table-dark" %></td>
 
             </tr>
           <% end %>

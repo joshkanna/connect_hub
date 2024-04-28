@@ -22,16 +22,16 @@
 
 
 
-    <% if Current.user != @user && !Current.user.friends.include?(@user) %>
+    <% if current_user != @user && !current_user.friends.include?(@user) %>
       <p><%= pluralize(@user.friends.count, "friend") %></p>
       <div class="d-grid mt-4">
-        <% if Current.user.sent_friend_requests.pending.find_by(receiver_id: @user.id).nil? %>
+        <% if current_user.sent_friend_requests.pending.find_by(receiver_id: @user.id).nil? %>
           <%= button_to "Send Friend Request", send_friend_request_user_path(@user), method: :post, type: "button", class: "btn btn-danger", style: "width: 100%;" %>
         <% else %>
-          <%= button_to "Cancel Friend Request", cancel_friend_request_user_path(@user, request_id: Current.user.sent_friend_requests.find_by(receiver_id: @user.id)), method: :delete, data: { confirm: 'Are you sure you want to cancel this friend request?' }, class: "btn btn-outline-danger", style: "width: 100%;" %>
+          <%= button_to "Cancel Friend Request", cancel_friend_request_user_path(@user, request_id: current_user.sent_friend_requests.find_by(receiver_id: @user.id)), method: :delete, data: { confirm: 'Are you sure you want to cancel this friend request?' }, class: "btn btn-outline-danger", style: "width: 100%;" %>
         <% end %>
       </div>
-    <% elsif Current.user != @user %>
+    <% elsif current_user != @user %>
 
       <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(@user.friends.count, "friend") %></a>
 
@@ -103,7 +103,7 @@
 
   <div class="md-5 mb-4">
     <h3>Posts</h3>
-    <% if @user == Current.user || Current.user.friends.include?(@user) %>
+    <% if @user == current_user || current_user.friends.include?(@user) %>
       <% if !@posts.empty? %>
         <ul class="list-group">
           <% @posts.reverse.each do |post| %>
@@ -116,7 +116,7 @@
               </li>
             </a>
           <% end %>
-          <% if @user == Current.user %>
+          <% if @user == current_user %>
             <div class="d-grid mt-3">
             <%= button_to "Post", new_user_post_path(@user), class: "btn btn-danger col-12", method: :get %>
           </div>
@@ -124,7 +124,7 @@
         </ul>
       <% else %>
         <p>No Posts Yet</p>
-        <% if @user == Current.user %>
+        <% if @user == current_user %>
           <div class="d-grid">
             <%= button_to "Make your first Post", new_user_post_path(@user), class: "btn btn-danger col-12", method: :get %>
           </div>

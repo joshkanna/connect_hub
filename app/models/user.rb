@@ -21,6 +21,9 @@ class User < ApplicationRecord
   has_many :chats
   has_many :messages
 
+  # noticed
+  has_many :notifications, as: :recipient, class_name: "Noticed::Notification"
+
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "email", "id", "id_value", "password_digest", "updated_at", "username"]
   end

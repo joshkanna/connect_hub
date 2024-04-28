@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
+
+<h1>Notifications</h1>
+
+<ul class="list-group">
+  <% @notifications.reverse.each do |notification| %>
+  <li class="list-group-item">
+    <% if notification.event.record_type == "Comment" %>
+      <%= link_to notification.message, "#{notification.url}#comment_#{notification.record.id}", class: "link-light" %>
+    <% elsif notification.event.record_type == "FriendRequest"  %>
+      <% if notification.event.record.status == 'pending' %>
+        <%= link_to notification.message, notification.url, class: "link-light" %>
+        <%= button_to "Accept", accept_friend_request_user_path(id: notification.recipient.id, request_id: notification.record.id), method: :post, class: "btn btn-success btn-sm" %>
+        <%= button_to "Reject", reject_friend_request_user_path(id: notification.recipient.id, request_id: notification.record.id), method: :post, class: "btn btn-danger btn-sm" %>
+      <% else %>
+        <%= link_to "#{notification.record.sender.username} is now your friend", notification.url, class: "link-light" %>
+      <% end %>
+    <% end %>
+  </li> 
+  <% end %>
+</ul>

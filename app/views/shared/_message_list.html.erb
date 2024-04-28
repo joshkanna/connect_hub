@@ -16,21 +16,21 @@
 
   <div class="row scrollarea message_list">
     <% unless @chats.nil? || @chats.empty?  %>
-      <div class="list">
+      <div id="chat_users">
         <% @chats.each do |chat| %>
-          <a href= "<%= user_chat_path(Current.user, chat) %>" class="p-3 list-group-item list-group-item-action border-bottom link-light">
+          <a href= "<%= user_chat_path(current_user, chat) %>" class="p-3 list-group-item list-group-item-action border-bottom link-light">
             <div class="d-flex gap-2 person-icon">
-              <% if Current.user == chat.user && chat.user2.avatar.present? %>
+              <% if current_user == chat.user && chat.user2.avatar.present? %>
               
                 <%= image_tag(User.find(chat.user2.id).avatar, class: "rounded-circle ", size: "45x45")%>
                 <span class="d-none d-md-block align-self-center">@<%= chat.user2.username %></span>
              
-              <% elsif Current.user == chat.user2 && chat.user.avatar.present? %>
+              <% elsif current_user == chat.user2 && chat.user.avatar.present? %>
               
                 <%= image_tag(chat.user.avatar, class: "rounded-circle ", size: "45x45") %>
                 <span class="d-none d-md-block align-self-center">@<%= chat.user.username %></span>
        
-              <% elsif Current.user == chat.user %>
+              <% elsif current_user == chat.user %>
             
                   <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>

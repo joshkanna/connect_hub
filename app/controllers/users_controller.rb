@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @chats = @user.chats.all + Chat.where(user2_id: @user.id)
 
-    @chats = @chats.sort_by { |chat| chat.messages.last.updated_at }.reverse
+    @chats = @chats.sort_by { |chat| chat.messages.last.updated_at unless chat.messages.empty? }.reverse
   end
 
   def remove_profile_pic
@@ -37,8 +37,10 @@ class UsersController < ApplicationController
 
   def send_friend_request
     receiver = User.find(params[:id])
-    @request = Current.user.sent_friend_requests.create(receiver: receiver, status: 'pending')
+    @request = current_user.sent_friend_requests.create(receiver: receiver, status: 'pending')
     @count = receiver.received_friend_requests.pending.count
+
+    NewRequestNotifier.with(record: @request).deliver(receiver)
     
     SendNotificationJob.perform_later(@request, @count)
     
@@ -46,7 +48,7 @@ class UsersController < ApplicationController
   end
 
   def cancel_friend_request
-    request = Current.user.sent_friend_requests.find(params[:request_id])
+    request = current_user.sent_friend_requests.find(params[:request_id])
     receiver = request.receiver
     count = receiver.received_friend_requests.pending.count - 1
 
@@ -72,9 +74,9 @@ class UsersController < ApplicationController
 
   def remove_friend
     friend = User.find(params[:id])
-    friendship = Friendship.find_by(user_id: Current.user.id, friend_id: friend.id)
+    friendship = Friendship.find_by(user_id: current_user.id, friend_id: friend.id)
     friendship.destroy
-    friendship = Friendship.find_by(user_id: friend.id, friend_id: Current.user.id)
+    friendship = Friendship.find_by(user_id: friend.id, friend_id: current_user.id)
     friendship.destroy
 
     redirect_to profile_user_path(friend)

@@ -2,7 +2,7 @@
   <%= stylesheet_link_tag "inbox", "data-turbo-track": "reload" %>
 
   <div id="chat-id" data-chat-id="<%= @chat.try(:id) %>"></div>
-  <div id="user-id" data-user-id="<%= Current.user.id %>"></div>
+  <div id="user-id" data-user-id="<%= current_user.id %>"></div>
 
   <div class="row messaging">
     
@@ -13,16 +13,16 @@
     <div class="col-sm-8 col-9 right-bar border">
       <nav class="navbar border-bottom">
         <div class="container-fluid">
-          <% if Current.user == @chat.user %>
+          <% if current_user == @chat.user %>
             <a class="navbar-brand" href="<%= profile_user_path(@chat.user2)%>">
-          <% elsif Current.user == @chat.user2 %>
+          <% elsif current_user == @chat.user2 %>
             <a class="navbar-brand" href="<%= profile_user_path(@chat.user)%>">
           <% end %>
-            <% if Current.user == @chat.user && @chat.user2.avatar.present? %>
+            <% if current_user == @chat.user && @chat.user2.avatar.present? %>
               <%= image_tag(User.find(@chat.user2.id).avatar, class: "rounded-circle ", size: "45x45") + " @#{@chat.user2.username}" %>
-            <% elsif Current.user == @chat.user2 && @chat.user.avatar.present? %>
+            <% elsif current_user == @chat.user2 && @chat.user.avatar.present? %>
               <%= image_tag(@chat.user.avatar, class: "rounded-circle ", size: "45x45") + " @#{@chat.user.username}" %>
-            <% elsif Current.user == @chat.user %>
+            <% elsif current_user == @chat.user %>
               <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
@@ -47,11 +47,11 @@
           <% @current_user_messages = [] %>
           
           <% @messages.each do |message| %>
-            <div id="message-<%="#{message.id}"%><%='-me' if message.user == Current.user %>">
-              <div class="message mb-3 <%= 'me' if message.user == Current.user %>">
+            <div id="message-<%="#{message.id}"%><%='-me' if message.user == current_user %>">
+              <div class="message mb-3 <%= 'me' if message.user == current_user %>">
                 <div class="content-container">
                   <div class="row">
-                    <% if Current.user == message.user %>
+                    <% if current_user == message.user %>
                       <% @current_user_messages << message %>
                       <div class="col-3 align-self-center">
                         <button id="delete-<%= message.id %>"type="button" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#deleteModal-<%= message.id %>"class="btn btn-sm btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">

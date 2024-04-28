@@ -3,9 +3,10 @@ class CommentsController < ApplicationController
     @user = User.find(params[:user_id])
     @post = @user.posts.find(params[:post_id])
     @comment = @post.comments.build(comment_params)
-    @comment.user = Current.user
+    @comment.user = current_user
 
     if @comment.save
+      NewCommentNotifier.with(record: @comment).deliver(@user)
       redirect_to user_post_path(@user, @post), notice: 'Comment was successfully created.'
     else
       # If there are validation errors, set flash message and redirect back
