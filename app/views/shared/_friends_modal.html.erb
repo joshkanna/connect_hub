@@ -7,8 +7,9 @@
       </div>
       <div class="modal-body">
         <ul class="list-group">
-        <% if !@user.friends.empty? %>
-          <% @user.friends.each do |friend| %>
+        <% unless user_friends(current_user).empty? %>
+          <% user_friends(current_user).each do |friend| %>
+
             <li class="list-group-item"><%= link_to friend.username, profile_user_path(friend), class:"link-light"%></li>
           <% end %>
         <% else %>

@@ -8,10 +8,10 @@
         <h3>Feed</h3>
 
         <ul class="list-group">
-          <% if !@user.friends.empty? %>
+          <% unless user_friends(current_user).empty? %>
             <% unless @friends_w_posts.empty? %>
               <% Post.all.reverse.each do |post| %>
-                <% if post.user_id != @user.id && @user.friend_ids.include?(post.id) %>
+                <% if post.user_id != @user.id && user_friends(@user).include?(post.user) %>
                   <a href=<%= "users/#{post.user_id}/posts/#{post.id}" %>>
                     <li class="list-group-item">
                       <p>@<%= User.find(post.user_id).username %></p>

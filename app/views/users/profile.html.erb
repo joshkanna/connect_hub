@@ -22,7 +22,7 @@
 
 
 
-    <% if current_user != @user && !current_user.friends.include?(@user) %>
+    <% if current_user != @user && !user_friends(current_user).include?(@user) %>
       <p><%= pluralize(@user.friends.count, "friend") %></p>
       <div class="d-grid mt-4">
         <% if current_user.sent_friend_requests.pending.find_by(receiver_id: @user.id).nil? %>
@@ -33,7 +33,7 @@
       </div>
     <% elsif current_user != @user %>
 
-      <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(@user.friends.count, "friend") %></a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(user_friends(@user).count, "friend") %></a>
 
       <%= render 'shared/friends_modal' %>
 
@@ -42,7 +42,7 @@
       </div>
 
     <% else %>
-      <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(@user.friends.count, "friend") %></a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(user_friends(current_user).count, "friend") %></a>
 
       <%= render 'shared/friends_modal' %>
 
@@ -103,7 +103,7 @@
 
   <div class="md-5 mb-4">
     <h3>Posts</h3>
-    <% if @user == current_user || current_user.friends.include?(@user) %>
+    <% if @user == current_user || user_friends(current_user).include?(@user) %>
       <% if !@posts.empty? %>
         <ul class="list-group">
           <% @posts.reverse.each do |post| %>

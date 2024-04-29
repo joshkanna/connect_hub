@@ -16,7 +16,7 @@
       <div class="col">
         <li class="nav-item">
           <a class="nav-link link-light" href="<%= root_path %>">
-            <span class="material-symbols-outlined">
+            <span class="material-icons">
               home
             </span>
           </a>
@@ -38,7 +38,7 @@
 
         <div class="col">
           <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link link-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <% if current_user.avatar.attached? %>
                 <%= image_tag(current_user.avatar, class: "rounded-circle ", size: "30x30") %>
               <% else %>

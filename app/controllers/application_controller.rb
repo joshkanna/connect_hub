@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_action :cookie_set
 
+
   def set_query
     @query = User.ransack(params[:q])
   end
@@ -48,4 +49,8 @@ class ApplicationController < ActionController::Base
     return unless current_user
     cookies[:user_id] = @user.id
   end
+
+  
+
+  
 end

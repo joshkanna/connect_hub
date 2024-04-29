@@ -13,8 +13,11 @@ class UsersController < ApplicationController
   def inbox
     @user = User.find(params[:id])
     @chats = @user.chats.all + Chat.where(user2_id: @user.id)
-
-    @chats = @chats.sort_by { |chat| chat.messages.last.updated_at unless chat.messages.empty? }.reverse
+    @chats.each { |chat| chat.destroy if chat.messages.empty? }
+    
+    unless @chats.empty? || @chats.nil?
+      @chats = @chats.sort_by { |chat| chat.messages.last.updated_at unless chat.messages.empty? }.reverse 
+    end
   end
 
   def remove_profile_pic
@@ -60,8 +63,9 @@ class UsersController < ApplicationController
   def accept_friend_request
     request = FriendRequest.find(params[:request_id])
     request.update(status: 'accepted')
-    Friendship.create(user: request.sender, friend: request.receiver)
-    Friendship.create(user: request.receiver, friend: request.sender)
+    friendship = Friendship.create(user: request.sender, friend: request.receiver)
+    NewFriendshipNotifier.with(record: friendship).deliver(friendship.user)
+    NewFriendshipNotifier.with(record: friendship).deliver(friendship.friend)
     
     redirect_to main_path
   end
@@ -74,10 +78,9 @@ class UsersController < ApplicationController
 
   def remove_friend
     friend = User.find(params[:id])
-    friendship = Friendship.find_by(user_id: current_user.id, friend_id: friend.id)
+    friendship = Friendship.find_by(user_id: current_user.id, friend_id: friend.id) || Friendship.find_by(user_id: friend.id, friend_id: current_user.id)
     friendship.destroy
-    friendship = Friendship.find_by(user_id: friend.id, friend_id: current_user.id)
-    friendship.destroy
+
 
     redirect_to profile_user_path(friend)
   end

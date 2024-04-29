@@ -29,8 +29,12 @@ class NewMessageNotifier < ApplicationNotifier
     chats = notification.recipient.chats.all + Chat.where(user2_id: notification.recipient.id)
     chats = chats.sort_by { |chat| chat.messages.last.updated_at unless chat.messages.empty? }.reverse 
     chat_users = ApplicationController.render(partial: 'shared/chat_users', locals: { chats: chats, user: notification.recipient })
+   
+
+
 
     { messageCount: notification.recipient.notifications.includes(:event).where(noticed_events: { record_type: 'Message' }).unread.count, chatUsers: chat_users }
+  
   end
   
   notification_methods do

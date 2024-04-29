@@ -28,12 +28,15 @@ consumer.subscriptions.create("Noticed::NotificationChannel", {
       }
       console.log(data.count)
     } else if (data.messageCount) {
+
+      if (document.getElementById('chat_users')) {
+        const chatUsers = document.getElementById('chat_users');
+        chatUsers.innerHTML = data.chatUsers
+      } else {
         console.log("yooo");
         const email_badge = document.getElementsByClassName('email');
 
-        const chatUsers = document.getElementById('chat_users');
-
-        chatUsers.innerHTML = data.chatUsers
+    
         
         for (let i = 0; i < email_badge.length; i++) {
           email_badge[i].classList.remove("invisible");
@@ -43,8 +46,9 @@ consumer.subscriptions.create("Noticed::NotificationChannel", {
     
         for (let i = 0; i < notificationCount.length; i++) {
           notificationCount[i].innerHTML = data.messageCount ;
-        }
+        } 
+      } 
 
-    }
+    } 
   }
 });

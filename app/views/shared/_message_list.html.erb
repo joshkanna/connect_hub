@@ -19,33 +19,66 @@
       <div id="chat_users">
         <% @chats.each do |chat| %>
           <a href= "<%= user_chat_path(current_user, chat) %>" class="p-3 list-group-item list-group-item-action border-bottom link-light">
-            <div class="d-flex gap-2 person-icon">
-              <% if current_user == chat.user && chat.user2.avatar.present? %>
+            <% unless chat.messages.nil? || chat.messages.empty? %>
+              <div class="d-flex gap-2 person-icon">
+                <% if current_user == chat.user && chat.user2.avatar.present? %>
+                
+                  <%= image_tag(User.find(chat.user2.id).avatar, class: "rounded-circle ", size: "45x45")%>
+                  <div class="d-block">
+                    <span class="d-none d-md-block align-self-start">@<%= chat.user2.username %></span>
+
+                    <% if chat.messages.last.user == current_user || message_notifications(current_user, chat).last.read?  %>
+                      <span class="d-none d-md-block text-muted"><%= "#{chat.messages.last.content} · #{time_until_next_unit(chat.messages.last)}" %></span>
+                    <% elsif message_notifications(current_user, chat).last.unread? %>
+                      <span class="d-none d-md-block"><%= "#{chat.messages.last.content}" %> <span class="text-muted">· <%= "#{time_until_next_unit(chat.messages.last)}" %></span></span>
+                    <% end %>
+                  </div>
               
-                <%= image_tag(User.find(chat.user2.id).avatar, class: "rounded-circle ", size: "45x45")%>
-                <span class="d-none d-md-block align-self-center">@<%= chat.user2.username %></span>
-             
-              <% elsif current_user == chat.user2 && chat.user.avatar.present? %>
+                <% elsif current_user == chat.user2 && chat.user.avatar.present? %>
+                
+                  <%= image_tag(chat.user.avatar, class: "rounded-circle ", size: "45x45") %>
+                  <div class="d-block">
+                    <span class="d-none d-md-block align-self-start">@<%= chat.user.username %></span>
+                    <% if chat.messages.last.user == current_user || message_notifications(current_user, chat).last.read?  %>
+                      <span class="d-none d-md-block text-muted"><%= "#{chat.messages.last.content} · #{time_until_next_unit(chat.messages.last)}" %></span>
+                    <% elsif message_notifications(current_user, chat).last.unread? %>
+                      <span class="d-none d-md-block"><%= "#{chat.messages.last.content}" %> <span class="text-muted">· <%= "#{time_until_next_unit(chat.messages.last)}" %></span></span>
+                    <% end %>
+                  </div>
+                <% elsif current_user == chat.user %>
               
-                <%= image_tag(chat.user.avatar, class: "rounded-circle ", size: "45x45") %>
-                <span class="d-none d-md-block align-self-center">@<%= chat.user.username %></span>
-       
-              <% elsif current_user == chat.user %>
-            
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                    <div class="d-block">
+                      <span class="d-none d-md-block align-self-start">@<%= chat.user2.username %></span>
+
+                      <% if chat.messages.last.user == current_user || message_notifications(current_user, chat).last.read?  %>
+                        <span class="d-none d-md-block text-muted"><%= "#{chat.messages.last.content} · #{time_until_next_unit(chat.messages.last)}" %></span>
+                      <% elsif message_notifications(current_user, chat).last.unread? %>
+                        <span class="d-none d-md-block"><%= "#{chat.messages.last.content}" %> <span class="text-muted">· <%= "#{time_until_next_unit(chat.messages.last)}" %></span></span>
+                      <% end %>
+                    </div>
+                  
+                <% else %>
                   <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                   </svg>
-                  <span class="d-none d-md-block align-self-center">@<%= chat.user2.username %></span>
-                
-              <% else %>
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                </svg>
-                <span class="d-none d-md-block align-self-center">@<%= chat.user.username %></span>
-              <% end %>
-            </div>
+                  <div class="d-block">
+                    <span class="d-none d-md-block align-self-start">@<%= chat.user.username %></span>
+
+                    <% if chat.messages.last.user == current_user || message_notifications(current_user, chat).last.read?  %>
+                      <span class="d-none d-md-block text-muted"><%= "#{chat.messages.last.content} · #{time_until_next_unit(chat.messages.last)}" %></span>
+                    <% elsif message_notifications(current_user, chat).last.unread? %>
+                      <span class="d-none d-md-block"><%= "#{chat.messages.last.content}" %> <span class="text-muted">· <%= "#{time_until_next_unit(chat.messages.last)}" %></span></span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+
+            <% end %>
           </a>
         <% end %>
       </div>
