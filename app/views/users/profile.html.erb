@@ -35,7 +35,7 @@
 
       <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(user_friends(@user).count, "friend") %></a>
 
-      <%= render 'shared/friends_modal' %>
+      <%= render 'shared/friends_modal', user: @user %>
 
       <div class="d-grid mt-4">
         <%= button_to "Remove Friend", remove_friend_user_path(@user), method: :delete, data: { confirm: "Are you sure you want to remove this friend?"}, class: "btn btn-danger", style: "width: 100%;" %>
@@ -44,7 +44,7 @@
     <% else %>
       <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(user_friends(current_user).count, "friend") %></a>
 
-      <%= render 'shared/friends_modal' %>
+      <%= render 'shared/friends_modal', user: current_user %>
 
       <div class="d-grid mt-4 mb-4">
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editProfile">Edit Profile</button>

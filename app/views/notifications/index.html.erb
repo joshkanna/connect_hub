@@ -5,7 +5,7 @@
 <ul class="list-group">
   <% @notifications.each do |notification| %>
     <% unless notification.event.record_type == "FriendRequest" && notification.record.status != "pending" %>
-      <li class="list-group-item ">
+      <li class="list-group-item d-flex gap-2 align-items-center link-light">
         
           <% if notification.event.record_type == "Comment" %>
             <a href=<%= "#{notification.url}" %><%= "#comment_#{notification.record.id}" if notification.event.type=="Comment"%> class="d-flex gap-2 align-items-center link-light">
