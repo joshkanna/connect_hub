@@ -1,9 +1,9 @@
-@media (max-width: 767px) {
-  .person-icon {
-    justify-content: center;
-  }
-}
 
+
+
+.icon {
+  justify-content: center;
+}
 
 body, html {
   height: 100%;

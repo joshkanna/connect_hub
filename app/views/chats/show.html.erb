@@ -6,11 +6,11 @@
 
   <div class="row messaging">
     
-    <div class="col left-bar border">
+    <div class="col-4 left-bar border d-none d-sm-block">
       <%= render 'shared/message_list' %>
     </div>
 
-    <div class="col-sm-8 col-9 right-bar border">
+    <div class="col-12 col-sm-8 right-bar border">
       <nav class="navbar border-bottom">
         <div class="container-fluid">
           <% if current_user == @chat.user %>
