@@ -26,6 +26,7 @@ class MessagesController < ApplicationController
         
         if @chat.user == User.find_by(username: 'chatbot')
           ChatService.new(messages: @chat.messages).call
+          sleep 1
           redirect_to(user_chat_path(@message.user, @chat))
         else
           NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
