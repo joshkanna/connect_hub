@@ -26,7 +26,7 @@ class ChatService
       })
 
     @message = Message.create(chat_id: messages.first.chat.id, user_id: User.find_by(username: 'chatbot').id, content: response.dig("choices", 0, "message", "content"))
-    
+    SendMessageJob.perform_later(@message)
     NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
   end
 
