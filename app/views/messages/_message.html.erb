@@ -1,13 +1,48 @@
-
+<% @current_user_messages = [] %>
 <div class="message mb-3 <%= 'me' if message.user == current_user %>">
   
   <div class="content-container">
-    <div class="content"> 
-      <%= message.content %>
+    <div class="row">
+      <% if current_user == message.user %>
+        <% @current_user_messages << message %>
+        <div class="col-3 align-self-center">
+          <button id="delete-<%= message.id %>"type="button" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#deleteModal-<%= message.id %>"class="btn btn-sm btn-dark">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+              <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+            </svg>
+          </button>
+        </div>
+      <% end %>
+      <div class="col">
+        <div class="content">                     
+          <%= message.content %>
+        </div>
+      </div>
     </div>
-    
+
     <div class="time text-muted">
       <%= message.created_at.strftime("%d %b %Y, %l:%M %p") %>
     </div>
   </div>
 </div>
+
+<% @current_user_messages.each do |message|  %>
+    <div class="modal fade" id="deleteModal-<%= message.id %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          
+          <div class="modal-body">
+            <div class="list-group deleteModal">
+              <%= link_to "Delete", message_path(message), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
+              <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+<%= javascript_include_tag('scroll_to_bottom') %>
+
+<%= render 'shared/new_message_modal' %>

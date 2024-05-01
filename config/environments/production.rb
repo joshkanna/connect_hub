@@ -106,6 +106,10 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = 'connecthub-nju3.onrender.com'
 
+  OpenAI.configure do |config|
+    config.access_token = ENV.fetch("OPEN_AI_API_KEY")
+  end
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com

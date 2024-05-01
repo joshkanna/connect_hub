@@ -7,22 +7,22 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: "must be a valid email address"}
 
 
-  has_many :posts
-  has_many :comments
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   # for friend requests
-  has_many :friendships
-  has_many :friends, through: :friendships
-  has_many :sent_friend_requests, class_name: 'FriendRequest', foreign_key: :sender_id
-  has_many :received_friend_requests, class_name: 'FriendRequest', foreign_key: :receiver_id
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, dependent: :destroy
+  has_many :sent_friend_requests, class_name: 'FriendRequest', foreign_key: :sender_id, dependent: :destroy
+  has_many :received_friend_requests, class_name: 'FriendRequest', foreign_key: :receiver_id, dependent: :destroy
 
   has_one_attached :avatar
 
-  has_many :chats
-  has_many :messages
+  has_many :chats, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   # noticed
-  has_many :notifications, as: :recipient, class_name: "Noticed::Notification"
+  has_many :notifications, as: :recipient, class_name: "Noticed::Notification", dependent: :destroy
 
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "email", "id", "id_value", "password_digest", "updated_at", "username"]

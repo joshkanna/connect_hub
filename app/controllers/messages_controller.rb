@@ -18,14 +18,24 @@ class MessagesController < ApplicationController
 
     @message.user = User.find(params[:message][:user_id])
 
+    @chat = @message.chat
 
-    if @message.save
-      
-      SendMessageJob.perform_later(@message)
-      NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
-      redirect_to user_chat_path(user_id: @message.user.id, id: @message.chat.id)
-    else
-      render :new, status: :unprocessable_entity
+    respond_to do |format|
+      if @message.save
+        SendMessageJob.perform_now(@message)
+        
+        if @chat.user == User.find_by(username: 'chatbot')
+          ChatService.new(messages: @chat.messages).call
+          redirect_to(user_chat_path(@message.user, @chat))
+        else
+          NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
+          format.turbo_stream { render turbo_stream: turbo_stream.append("messages", partial: "messages/message", locals: { message: @message }) }
+          format.html { redirect_to @chat, notice: 'Message was successfully created.' }
+        end
+      else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { message: @message }) }
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
   

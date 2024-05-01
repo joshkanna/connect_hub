@@ -1,5 +1,6 @@
 class ChatsController < ApplicationController
   before_action :refresh_page
+  before_action :messaging
   def show
     
     @user = User.find(params[:user_id])

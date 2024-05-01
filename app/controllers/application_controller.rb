@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
+  before_action :chatbot
   before_action :current_user
   before_action :set_query
-
+  
   helper_method :current_user
   before_action :cookie_set
 
@@ -50,7 +51,13 @@ class ApplicationController < ActionController::Base
     cookies[:user_id] = @user.id
   end
 
-  
+  def messaging
+    @messaging = true
+  end
 
-  
+  def chatbot
+    if User.where(username: "chatbot").empty?
+      User.create(username: "chatbot", email: "chatbot@gmail.com", password_digest: "chatbot123")
+    end
+  end
 end

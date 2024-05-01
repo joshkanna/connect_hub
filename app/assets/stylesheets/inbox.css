@@ -1,4 +1,7 @@
 
+.material-icons-outlined {
+  font-size: 48px;
+}
 
 
 .icon {
@@ -41,19 +44,21 @@ a {
 @media (max-width: 768px) {
   .row.messaging {
     margin: auto;
-    height: calc(100vh - 162px);
 
+
+    
     max-width: 100%;
 
     .left-bar {
-      height: 100%;
+      height: 100vh;
       .message_list {
         height: calc(100% - 80px);
       }
     }
 
     .right-bar {
-      height: 100%;
+      height: 100vh;
+   
       .chat-room {
         height: calc(100% - 133px);
       }

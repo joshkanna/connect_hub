@@ -91,6 +91,11 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 
+  OpenAI.configure do |config|
+    config.access_token = Rails.application.credentials.open_ai_api_key
+    config.log_errors = true # Highly recommended in development, so you can see what errors OpenAI is returning. Not recommended in production.
+  end
+
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 end

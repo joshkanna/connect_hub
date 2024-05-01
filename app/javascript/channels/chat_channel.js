@@ -30,16 +30,15 @@ if (document.getElementById('chat-id')) {
   
       let html;
 
-      if (user_id === data.message.user_id) {
-        html = data.mine
-      } else {
+      if (user_id !== data.message.user_id) {
         html = data.theirs
+        const messageContainer = document.getElementById('messages');
+        messageContainer.innerHTML = messageContainer.innerHTML + html;
       }
 
-      console.log(html);
-
-      const messageContainer = document.getElementById('messages');
-      messageContainer.innerHTML = messageContainer.innerHTML + html;
+  
+      var chatBox = document.getElementById('message_content')
+      chatBox.value = ''
 
       
 
