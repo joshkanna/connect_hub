@@ -6,6 +6,7 @@ class NewMessageNotifier < ApplicationNotifier
   deliver_by :action_cable do |config|
     config.stream = ->{ recipient }
     config.message = :to_websocket
+    config.wait = 5.seconds
   end
   # Add your delivery methods
   #
@@ -30,9 +31,6 @@ class NewMessageNotifier < ApplicationNotifier
     chats = chats.sort_by { |chat| chat.messages.last.updated_at unless chat.messages.empty? }.reverse 
     chat_users = ApplicationController.render(partial: 'shared/chat_users', locals: { chats: chats, user: notification.recipient })
    
-
-
-
     { messageCount: notification.recipient.notifications.includes(:event).where(noticed_events: { record_type: 'Message' }).unread.count, chatUsers: chat_users }
   
   end
