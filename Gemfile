@@ -82,3 +82,5 @@ gem "aws-sdk-s3", require: false
 gem "noticed", "~> 2.2"
 
 gem "ruby-openai"
+
+gem 'pgreset'
