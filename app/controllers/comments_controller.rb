@@ -6,7 +6,9 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      NewCommentNotifier.with(record: @comment).deliver(@user)
+      unless @comment.user == @post.user
+        NewCommentNotifier.with(record: @comment).deliver(@user)
+      end
       redirect_to user_post_path(@user, @post), notice: 'Comment was successfully created.'
     else
       # If there are validation errors, set flash message and redirect back
