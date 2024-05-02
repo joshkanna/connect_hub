@@ -6,7 +6,7 @@ class NewMessageNotifier < ApplicationNotifier
   deliver_by :action_cable do |config|
     config.stream = ->{ recipient }
     config.message = :to_websocket
- 
+    config.unless = ->{ record.user.username == 'chatbot' }
   end
   # Add your delivery methods
   #
