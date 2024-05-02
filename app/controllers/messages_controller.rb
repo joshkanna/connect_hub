@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        SendMessageJob.perform_later(@message)
+        SendMessageJob.perform_now(@message)
         
         unless @chat.user == User.find_by(username: 'chatbot')
           NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
@@ -30,7 +30,8 @@ class MessagesController < ApplicationController
           format.html { redirect_to @chat, notice: 'Message was successfully created.' }
         else
           format.turbo_stream { render turbo_stream: turbo_stream.append("messages", partial: "messages/message", locals: { message: @message }) }
-          format.html { redirect_to @chat, notice: 'Message was successfully created.' }
+          format.html { redirect_to user_chat_path(@message.user, @chat) }
+          
           ChatService.new(messages: @chat.messages).call
         end
       else

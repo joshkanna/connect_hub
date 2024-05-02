@@ -5,29 +5,31 @@ class ChatService
   end
 
   def call
-
-    chat_messages = training_prompts.map do |prompt| 
-      { role: "system", content: prompt }
-    end
-
-    messages.each do |message|
-      if message.user == User.find_by(username: 'chatbot')
-        chat_messages << { role: "assistant", content: message.content } 
-      else
-        chat_messages << { role: "user", content: message.content } 
+    if messages.last.user.username != 'chatbot'
+      chat_messages = training_prompts.map do |prompt| 
+        { role: "system", content: prompt }
       end
+
+      messages.each do |message|
+        if message.user == User.find_by(username: 'chatbot')
+          chat_messages << { role: "assistant", content: message.content } 
+        else
+          chat_messages << { role: "user", content: message.content } 
+        end
+      end
+
+    
+      response = client.chat(
+        parameters: {
+            model: "gpt-3.5-turbo", # Required.
+            messages: chat_messages,
+            temperature: 0.7,
+        })
+      
+      @message = Message.create(chat_id: messages.first.chat.id, user_id: User.find_by(username: 'chatbot').id, content: response.dig("choices", 0, "message", "content"))
+      SendMessageJob.perform_later(@message)
+      NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
     end
-
-    response = client.chat(
-      parameters: {
-          model: "gpt-3.5-turbo", # Required.
-          messages: chat_messages,
-          temperature: 0.7,
-      })
-
-    @message = Message.create(chat_id: messages.first.chat.id, user_id: User.find_by(username: 'chatbot').id, content: response.dig("choices", 0, "message", "content"))
-    SendMessageJob.set(wait: 5.seconds).perform_later(@message)
-    NewMessageNotifier.with(record: @message, chat: @message.chat).deliver(@message.chat.user == @message.user ? @message.chat.user2 : @message.chat.user )
   end
 
   def client

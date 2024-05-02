@@ -1,0 +1,8 @@
+class ChatServiceJob < ApplicationJob
+  queue_as :default
+
+  def perform(messages)
+    # Do something later
+    ChatService.new(messages: messages).call
+  end
+end

@@ -30,6 +30,7 @@ consumer.subscriptions.create("Noticed::NotificationChannel", {
     } else if (data.messageCount) {
 
       if (document.getElementById('chat_users')) {
+        console.log('heyy');
         const chatUsers = document.getElementById('chat_users');
         chatUsers.innerHTML = data.chatUsers
       } else {

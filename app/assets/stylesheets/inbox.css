@@ -3,6 +3,17 @@
   font-size: 48px;
 }
 
+.text-truncate {
+  max-width: 250px;
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .text-truncate {
+    max-width: 200px;
+  }
+}
+
+
 
 .icon {
   justify-content: center;
@@ -44,20 +55,20 @@ a {
 @media (max-width: 768px) {
   .row.messaging {
     margin: auto;
-
+    height: calc(100vh - 162px);
 
     
     max-width: 100%;
 
     .left-bar {
-      height: 100vh;
+      height: 100%;
       .message_list {
         height: calc(100% - 80px);
       }
     }
 
     .right-bar {
-      height: 100vh;
+      height: 100%;
    
       .chat-room {
         height: calc(100% - 133px);

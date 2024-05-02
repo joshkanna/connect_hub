@@ -19,7 +19,6 @@ class ChatsController < ApplicationController
 
       @messages = @chat.messages.sort_by { |message| message.created_at }
       @user_2 = User.find(@chat.user2_id)
-      render :show
     end
   end
 

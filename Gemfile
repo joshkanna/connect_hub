@@ -84,3 +84,7 @@ gem "noticed", "~> 2.2"
 gem "ruby-openai"
 
 gem 'pgreset'
+
+gem "sinatra", "~> 3"
+
+gem "sidekiq", "~> 7"

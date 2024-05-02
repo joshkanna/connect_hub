@@ -6,7 +6,7 @@ class NewMessageNotifier < ApplicationNotifier
   deliver_by :action_cable do |config|
     config.stream = ->{ recipient }
     config.message = :to_websocket
-    config.wait = 5.seconds
+ 
   end
   # Add your delivery methods
   #
