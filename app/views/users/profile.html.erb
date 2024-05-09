@@ -1,12 +1,10 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
-
 <div class="layout">
   <div class="md-5 mb-4">
     <div class="row">
       <div class="col-auto me-auto align-self-center">
         <h3 style="color: white">@<%= @user.username %></h3>
       </div>
-      
       <div class="col-auto">
         <% if @user.avatar.attached? %>
           <%= image_tag(@user.avatar, class: "rounded-circle ", size: "90x90") %>
@@ -18,9 +16,6 @@
       </div>
     </div>
     <p><%= @bio %></p>
-
-
-
     <% if current_user != @user && !user_friends(current_user).include?(@user) %>
       <p><%= pluralize(@user.friends.count, "friend") %></p>
       <div class="d-grid mt-4">
@@ -31,20 +26,14 @@
         <% end %>
       </div>
     <% elsif current_user != @user %>
-
       <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(user_friends(@user).count, "friend") %></a>
-
       <%= render 'shared/friends_modal', user: @user %>
-
       <div class="d-grid mt-4">
         <%= button_to "Remove Friend", remove_friend_user_path(@user), method: :delete, data: { confirm: "Are you sure you want to remove this friend?"}, class: "btn btn-danger", style: "width: 100%;" %>
       </div>
-
     <% else %>
       <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="link-light"><%= pluralize(user_friends(current_user).count, "friend") %></a>
-
       <%= render 'shared/friends_modal', user: current_user %>
-
       <div class="d-grid mt-4 mb-4">
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editProfile">Edit Profile</button>
       </div>
@@ -53,16 +42,13 @@
           <div class="modal-content">
             <%= form_with(model: @user, url: user_path(@user)) do |form| %>
               <div class="modal-body">
-            
                 <%= render 'shared/flash' %>
                 <div class="row mb-3">
                   <div class="col-auto me-auto">
                     <%= form.label :bio, class: "form-label" %>
                     <%= form.text_field :bio, class: "form-control" %>
                   </div>
-
                   <div class="col-auto">
-                  
                     <% if @user.avatar.attached? %>
                       <div class="dropdown">
                         <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -77,20 +63,19 @@
                     <% else %>
                       <a type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="material-icons-outlined" style="font-size: 50px;">
-                      account_circle
-                    </span>
+                          account_circle
+                        </span>
                       </a>
                       <%= form.file_field :avatar, accept: "image/*", style: "display: none;" %><br>
-                        <ul class="dropdown-menu">
-                          <li><%= form.label :avatar, "Upload picture", class: "dropdown-item" %></li>
-                        </ul>
+                      <ul class="dropdown-menu">
+                        <li><%= form.label :avatar, "Upload picture", class: "dropdown-item" %></li>
+                      </ul>
                     <% end %>
-                    
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <%= form.submit "Done",  class: "btn btn-danger col", data: { bs: { dismiss: "modal" } }  %> 
+                <%= form.submit "Done",  class: "btn btn-danger col", data: { bs: { dismiss: "modal" } }  %>
               </div>
             <% end %>
           </div>
@@ -98,7 +83,6 @@
       </div>
     <% end %>
   </div>
-
   <div class="md-5 mb-4">
     <h3>Posts</h3>
     <% if @user == current_user || user_friends(current_user).include?(@user) %>
@@ -108,28 +92,28 @@
             <a href=<%= "posts/#{post.id}" %>>
               <li class="list-group-item">
                 <p>@<%= @user.username %></p>
-                <h5><%=post.title%></h4>
-                <p><%=post.body%></p>
-                <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
-              </li>
-            </a>
-          <% end %>
-          <% if @user == current_user %>
-            <div class="d-grid mt-3">
+              <h5><%=post.title%></h4>
+              <p><%=post.body%></p>
+              <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>
+            </li>
+          </a>
+        <% end %>
+        <% if @user == current_user %>
+          <div class="d-grid mt-3">
             <%= button_to "Post", new_user_post_path(@user), class: "btn btn-danger col-12", method: :get %>
           </div>
-          <% end %>
-        </ul>
-      <% else %>
-        <p>No Posts Yet</p>
-        <% if @user == current_user %>
-          <div class="d-grid">
-            <%= button_to "Make your first Post", new_user_post_path(@user), class: "btn btn-danger col-12", method: :get %>
-          </div>
-        <% end%>
-      <% end %>
+        <% end %>
+      </ul>
     <% else %>
-      <p>Only friends can see this account's posts.</p>
+      <p>No Posts Yet</p>
+      <% if @user == current_user %>
+        <div class="d-grid">
+          <%= button_to "Make your first Post", new_user_post_path(@user), class: "btn btn-danger col-12", method: :get %>
+        </div>
+      <% end%>
     <% end %>
-  </div>
+  <% else %>
+    <p>Only friends can see this account's posts.</p>
+  <% end %>
+</div>
 </div>

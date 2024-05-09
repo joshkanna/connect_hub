@@ -1,13 +1,9 @@
-
 <div class="row messaging">
   <div class="col-sm-4 left-bar border">
     <%= render 'shared/message_list' %>
   </div>
-
-
   <div class="col-8 right-bar border d-none d-sm-flex align-items-center justify-content-center">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#messageModal">New message</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#messageModal">New message</button>
   </div>
 </div>
-
 <%= render 'shared/new_message_modal' %>

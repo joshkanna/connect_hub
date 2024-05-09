@@ -1,48 +1,39 @@
 <%= stylesheet_link_tag "form", "data-turbo-track": "reload" %>
-
-
-  <%= form_with(model: @user, url: sign_up_path, class: 'form-signup shadow') do |form| %>
+<%= form_with(model: @user, url: sign_up_path, class: 'form-signup shadow') do |form| %>
   <% if @user.errors.any? %>
-  <div class="alert alert-warning">
-    <%= @user.errors.full_messages[0] %>
-  </div>
+    <div class="alert alert-warning">
+      <%= @user.errors.full_messages[0] %>
+    </div>
   <% end %>
-
   <div class="text-center mb-4">
     <h1 class="h3 mb-3 fw-bold">ConnectHub</h1>
     <p>Welcome</p>
   </div>
-
   <div class="form-label-group mb-5">
     <label for="regUsername" class="mb-2">Username</label>
     <%= form.text_field :username, placeholder: "Steve Jobs", class: "form-control border", id: "regUsername", aria: { describedby: "inputGroupPrepend2" }, required: true %>
   </div>
-
   <div class="form-label-group mb-5">
     <label for="regEmail" class="mb-2">Email</label>
     <%= form.text_field :email, placeholder: "mail@gmail.com", class: "form-control border", id: "regEmail", aria: { describedby: "inputGroupPrepend2" },  required: true %>
-  
     <script>
       // Custom email validation
       const regEmail = document.getElementById('regEmail');
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    
+
       regEmail.addEventListener('input', function() {
         if (emailRegex.test(this.value)) {
           this.setCustomValidity('');
-        } else { 
+        } else {
           this.setCustomValidity('Please enter a valid email address');
         }
       });
     </script>
   </div>
-
   <div class="form-label-group mb-5">
     <label for="regPassword" class="mb-2">Password</label>
     <%= form.password_field :password, placeholder: "Password", class: "form-control border regPassword", id: "regPassword", aria: { describedby: "inputGroupPrepend2" }, required: true %>
   </div>
-
   <%= form.submit "Sign Up",  class: "btn btn-lg btn-block btn-danger mt-2 mb-2 fw-semibold" %>
-    <p class="text-muted" style="color: white">Have an account? <%= link_to "Sign In", sign_in_path, class: "link-light" %></p>
-  <% end %>
-
+  <p class="text-muted" style="color: white">Have an account? <%= link_to "Sign In", sign_in_path, class: "link-light" %></p>
+<% end %>

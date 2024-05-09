@@ -1,12 +1,10 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 <div class="main-layout">
   <div class="row row-cols-1 row-cols-lg-2">
-    <%= render 'shared/offset_profile_box' %>  
-
+    <%= render 'shared/offset_profile_box' %>
     <div class="col col-12 col-lg-7 col-xl-8">
       <div class="p-3 md-5 mb-4 bg-body-tertiary">
         <h3>Feed</h3>
-
         <ul class="list-group">
           <% unless user_friends(current_user).empty? %>
             <% unless @friends_w_posts.empty? %>
@@ -15,21 +13,21 @@
                   <a href=<%= "users/#{post.user_id}/posts/#{post.id}" %>>
                     <li class="list-group-item">
                       <p>@<%= User.find(post.user_id).username %></p>
-                      <h5><%=post.title%></h4>
-                      <p><%=post.body%></p>
-                      <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
-                    </li>
-                  </a>
-                <% end %>
+                    <h5><%=post.title%></h4>
+                    <p><%=post.body%></p>
+                    <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>
+                  </li>
+                </a>
               <% end %>
-            <% else %>
-              <p>None of your friends have posted yet!</p>
             <% end %>
           <% else %>
-            Make friends to see their posts on your feed!
+            <p>None of your friends have posted yet!</p>
           <% end %>
-        </ul>
-      </div>
+        <% else %>
+          Make friends to see their posts on your feed!
+        <% end %>
+      </ul>
     </div>
   </div>
+</div>
 </div>

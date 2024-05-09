@@ -1,5 +1,6 @@
-class PasswordResetsMailer < ApplicationMailer
+# frozen_string_literal: true
 
+class PasswordResetsMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -7,8 +8,8 @@ class PasswordResetsMailer < ApplicationMailer
   #
   def reset_password(user)
     @user = user
-    @greeting = "Hello"
+    @greeting = 'Hello'
 
-    mail to: user.email, :subject => "Reset password instruction"
+    mail to: user.email, subject: 'Reset password instruction'
   end
 end

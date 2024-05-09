@@ -1,7 +1,6 @@
 <div class="col col-lg-5 col-xl-4">
   <div class="p-3 md-5 mb-4 bg-body-tertiary">
     <h3><%= link_to "@#{@user.username}", profile_user_path(@user), class: "link-light" %></h3>
-
     <ul class="list-group">
       <li class="list-group-item">
         <a href=<%= user_posts_path(@user) %> class="link-light">
@@ -26,11 +25,9 @@
             </div>
           </div>
         </a>
-
         <%= render 'shared/friends_modal', user: current_user %>
       </li>
     </ul>
-
     <div class="d-grid mt-3">
       <%= button_to "Post", new_user_post_path(@user), class: "btn btn-danger", method: :get, style: "width: 100%;" %>
     </div>

@@ -1,32 +1,25 @@
- <div class="col">
+ 
+<div class="col">
   <li class="nav-item dropdown">
     <a class="nav-link link-light" href="<%= notifications_path %>" role="button" aria-expanded="false">
-      
       <span class="material-icons">
         notifications
       </span>
-
       <span class="bell position-absolute translate-middle badge rounded-pill bg-danger <%= 'invisible' if current_user.notifications.includes(:event).where.not(noticed_events: { record_type: 'Message' }).unseen.count < 1 %>">
         <span class="notis_count"> <%= current_user.notifications.includes(:event).where.not(noticed_events: { record_type: 'Message'}).unseen.count %></span>
       </span>
-    
     </a>
   </li>
 </div>
-
 <div class="col">
-
   <li class="nav-item dropdown">
     <a class="nav-link link-light" href="<%= inbox_user_path(current_user) %>" role="button" aria-expanded="false">
-      
       <span class="material-icons">
         email
       </span>
-
       <span class="email position-absolute translate-middle badge rounded-pill bg-danger <%= 'invisible' if  current_user.notifications.includes(:event).where(noticed_events: { record_type: 'Message' }).unread.count < 1 %>">
         <span class="message_notis_count"> <%= current_user.notifications.includes(:event).where(noticed_events: { record_type: 'Message' }).unread.count %></span>
       </span>
-    
     </a>
   </li>
 </div>

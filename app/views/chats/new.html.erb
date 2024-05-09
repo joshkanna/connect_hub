@@ -1,5 +1,4 @@
 <%= stylesheet_link_tag "inbox", "data-turbo-track": "reload" %>
-
 <div class="card">
   <div class="card-header">
     <div class="d-flex gap-2 align-items-center">
@@ -10,25 +9,19 @@
       @<%= @chat.user2.username %>
     </div>
   </div>
-
   <div class="card-body">
   </div>
-
   <div class="card-footer align-items-end">
     <%= form_with(model: [@user, @chat], local: true) do |form| %>
-    
       <%= form.hidden_field :user2_id, value: @user_2.id %>
-
       <div class="row">
         <div class="input-group">
           <%= form.fields_for :message_attributes, @message do |message_form| %>
-            <%= message_form.text_field :content, placeholder: "Send a message", class: "form-control" %>   
+            <%= message_form.text_field :content, placeholder: "Send a message", class: "form-control" %>
             <%= message_form.submit "Send", class: "btn btn-primary", id: "save-button" %>
           <% end %>
         </div>
       </div>
     <% end %>
- 
   </div>
 </div>
-

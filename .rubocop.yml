@@ -1,0 +1,7 @@
+require:
+  - rubocop-rails
+  - rubocop-capybara
+
+AllCops:
+ Enabled: true
+ SuggestExtensions: false

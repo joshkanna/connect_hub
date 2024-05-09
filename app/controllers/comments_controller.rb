@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
   def create
     @user = User.find(params[:user_id])
@@ -6,13 +8,11 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      unless @comment.user == @post.user
-        NewCommentNotifier.with(record: @comment).deliver(@user)
-      end
+      NewCommentNotifier.with(record: @comment).deliver(@user) unless @comment.user == @post.user
       redirect_to user_post_path(@user, @post), notice: 'Comment was successfully created.'
     else
       # If there are validation errors, set flash message and redirect back
-      flash[:error] = 'Failed to create comment. Please fix the errors.' + @comment.errors.full_messages.join(', ')
+      flash[:error] = "Failed to create comment. Please fix the errors.#{@comment.errors.full_messages.join(', ')}"
       redirect_to user_post_path(@user, @post)
     end
   end
@@ -27,7 +27,8 @@ class CommentsController < ApplicationController
   end
 
   private
-    def comment_params
-      params.require(:comment).permit(:body)
-    end
+
+  def comment_params
+    params.require(:comment).permit(:body)
+  end
 end

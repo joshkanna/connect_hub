@@ -1,18 +1,14 @@
 <%= stylesheet_link_tag 'navbar_bottom', "data-turbo-track": "reload" %>
-
 <div id="navbar-bottom-id" data-navbar-bottom-id="bottom"></div>
 <div id="user-id" data-user-id="<%= current_user.id %>"></div>
-
 <div class="container mb-5">
   <nav class="navbar fixed-top bg-body-tertiary justify-content-center">
     <h1><%= link_to "ConnectHub", root_path, class: "navbar-brand" %></h1>
   </nav>
 </div>
-  
 <div class="container-fluid">
   <ul class="nav bg-body-tertiary justify-content-center fixed-bottom">
     <div class="row">
-
       <div class="col">
         <li class="nav-item">
           <a class="nav-link link-light" href="<%= root_path %>">
@@ -22,37 +18,33 @@
           </a>
         </li>
       </div>
-
       <div class="col">
         <li class="nav-item">
           <a class="nav-link link-light" href="<%= search_path %>">
-          <span class="material-icons">
+            <span class="material-icons">
               search
-          </span>
+            </span>
           </a>
         </li>
       </div>
-
-        <%= render 'shared/notis_nav_link', bar: 'mobile' %>
-     
-
-        <div class="col">
-          <li class="nav-item dropdown">
-            <a class="nav-link link-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <% if current_user.avatar.attached? %>
-                <%= image_tag(current_user.avatar, class: "rounded-circle ", size: "30x30") %>
-              <% else %>
-                <span class="material-icons-outlined" style="font-size: 30px;">
-                  account_circle
-                </span>
-              <% end %>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li><%= link_to "Profile", profile_user_path(current_user), class: "dropdown-item"%> </li>
-              <li><%= button_to "Log Out", logout_path, class: "dropdown-item", method: :delete %> </li>
-            </ul>
-          </li>
-        </div>
+      <%= render 'shared/notis_nav_link', bar: 'mobile' %>
+      <div class="col">
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <% if current_user.avatar.attached? %>
+              <%= image_tag(current_user.avatar, class: "rounded-circle ", size: "30x30") %>
+            <% else %>
+              <span class="material-icons-outlined" style="font-size: 30px;">
+                account_circle
+              </span>
+            <% end %>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><%= link_to "Profile", profile_user_path(current_user), class: "dropdown-item"%> </li>
+            <li><%= button_to "Log Out", logout_path, class: "dropdown-item", method: :delete %> </li>
+          </ul>
+        </li>
+      </div>
     </div>
   </ul>
 </div>

@@ -1,6 +1,5 @@
 <% @current_user_messages = [] %>
 <div class="message mb-3 <%= 'me' if message.user == current_user %>">
-  
   <div class="content-container">
     <div class="row">
       <% if current_user == message.user %>
@@ -14,35 +13,29 @@
         </div>
       <% end %>
       <div class="col">
-        <div class="content">                     
+        <div class="content">
           <%= message.content %>
         </div>
       </div>
     </div>
-
     <div class="time text-muted">
       <%= message.created_at.strftime("%d %b %Y, %l:%M %p") %>
     </div>
   </div>
 </div>
-
 <% @current_user_messages.each do |message|  %>
-    <div class="modal fade" id="deleteModal-<%= message.id %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          
-          <div class="modal-body">
-            <div class="list-group deleteModal">
-              <%= link_to "Delete", message_path(message), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %> 
-              <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
-            </div>
+  <div class="modal fade" id="deleteModal-<%= message.id %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="list-group deleteModal">
+            <%= link_to "Delete", message_path(message), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "link-danger list-group-item list-group-item-action" %>
+            <button type="button" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Close</button>
           </div>
-          
         </div>
       </div>
     </div>
-  <% end %>
-
+  </div>
+<% end %>
 <%= javascript_include_tag('scroll_to_bottom') %>
-
 <%= render 'shared/new_message_modal' %>

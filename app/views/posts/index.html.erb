@@ -1,8 +1,7 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 <div class="main-layout">
   <div class="row row-cols-1 row-cols-lg-2">
-    <%= render 'shared/offset_profile_box' %>  
-
+    <%= render 'shared/offset_profile_box' %>
     <div class="col col-12 col-lg-7 col-xl-8">
       <div class="p-3 md-5 mb-4 bg-body-tertiary">
         <h3>Posts</h3>
@@ -14,14 +13,14 @@
             <a href=<%= user_post_path(@user, post) %>>
               <li class="list-group-item">
                 <p>@<%= @user.username %></p>
-                <h5><%=post.title%></h4>
-                <p><%=post.body%></p>
-                <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>  
-              </li>
-            </a>
-          <% end %>
-        </ul>
-      </div>
+              <h5><%=post.title%></h4>
+              <p><%=post.body%></p>
+              <time class="text-muted"><%=post.updated_at.strftime("%d %b %Y")%></time>
+            </li>
+          </a>
+        <% end %>
+      </ul>
     </div>
   </div>
+</div>
 </div>

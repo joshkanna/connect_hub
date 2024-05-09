@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # To deliver this notification:
 #
 # NewFriendshipNotifier.with(record: @post, message: "New post").deliver(User.all)
 
 class NewFriendshipNotifier < ApplicationNotifier
   deliver_by :action_cable do |config|
-    config.stream = ->{ recipient }
+    config.stream = -> { recipient }
     config.message = :to_websocket
   end
   # Add your delivery methods
@@ -26,7 +28,7 @@ class NewFriendshipNotifier < ApplicationNotifier
   #
 
   def to_websocket(notification)
-    { count: notification.recipient.notifications.includes(:event).where.not(noticed_events: { record_type: 'Message'}).unseen.count }
+    { count: notification.recipient.notifications.includes(:event).where.not(noticed_events: { record_type: 'Message' }).unseen.count }
   end
 
   notification_methods do
@@ -37,7 +39,7 @@ class NewFriendshipNotifier < ApplicationNotifier
         "#{record.user.username} is now your friend"
       end
     end
-    
+
     def url
       if recipient == record.user
         profile_user_path(record.friend)

@@ -7,14 +7,17 @@
       </div>
       <div class="modal-body">
         <ul class="list-group">
-        <% unless user_friends(user).empty? %>
-          <% user_friends(user).each do |friend| %>
-
-            <li class="list-group-item"><%= link_to friend.username, profile_user_path(friend), class:"link-light"%></li>
+          <% unless user_friends(user).empty? %>
+            <% user_friends(user).each do |friend| %>
+              <li class="list-group-item"><%= link_to friend.username, profile_user_path(friend), class:"link-light"%></li>
+            <% end %>
+          <% else %>
+            <li class="list-group-item text-center p-4">
+              <h4>No friends yet.</h4>
+              <br>
+              <p>Send users a friend request to connect.</p>
+            </li>
           <% end %>
-        <% else %>
-          <li class="list-group-item text-center p-4"><h4>No friends yet.</h4> <br><p>Send users a friend request to connect.</p></li>
-        <% end %>
         </ul>
       </div>
     </div>

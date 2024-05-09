@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # To deliver this notification:
 #
 # NewRequestNotifier.with(record: @post, message: "New post").deliver(User.all)
 
 class NewRequestNotifier < ApplicationNotifier
   deliver_by :action_cable do |config|
-    config.stream = ->{ recipient }
+    config.stream = -> { recipient }
     config.message = :to_websocket
   end
   # Add your delivery methods
@@ -26,14 +28,14 @@ class NewRequestNotifier < ApplicationNotifier
   #
 
   def to_websocket(notification)
-    { count: notification.recipient.notifications.includes(:event).where.not(noticed_events: { record_type: 'Message'}).unseen.count }
+    { count: notification.recipient.notifications.includes(:event).where.not(noticed_events: { record_type: 'Message' }).unseen.count }
   end
 
   notification_methods do
     def message
       "#{record.sender.username} sent you a friend request"
     end
-    
+
     def url
       profile_user_path(record.sender)
     end

@@ -1,13 +1,11 @@
 <%= stylesheet_link_tag 'navbar', "data-turbo-track": "reload" %>
-
 <%= search_form_for(@query, url: search_path, method: :get, class: 'd-flex') do |f| %>
-    
-    <form class="d-flex" id="user_search" action="/search" accept-charset="UTF-8" method="get">
+  <form class="d-flex" id="user_search" action="/search" accept-charset="UTF-8" method="get">
     <label>
-        <input type="submit" name="commit" style="display: none;">
-       <span class="material-icons">
-search
-</span>
+      <input type="submit" name="commit" style="display: none;">
+      <span class="material-icons">
+        search
+      </span>
     </label>
-</form>
+  </form>
 <% end %>

@@ -1,6 +1,8 @@
-class PostsController < ApplicationController 
+# frozen_string_literal: true
+
+class PostsController < ApplicationController
   before_action :set_post, only: [:show]
-  
+
   def index
     @user = User.find(params[:user_id])
     @posts = @user.posts.all
@@ -9,10 +11,12 @@ class PostsController < ApplicationController
   def show
     @user = User.find(params[:user_id])
 
-    @user.notifications.includes(:event).where(noticed_events: {record_type: 'Comment'}).unread.each { |notification| notification.mark_as_read if notification.record.post == @post }
-    if @post.nil?
-      redirect_to (user_posts_path), notice: "This post has been deleted."
+    @user.notifications.includes(:event).where(noticed_events: { record_type: 'Comment' }).unread.each do |notification|
+      notification.mark_as_read if notification.record.post == @post
     end
+    return unless @post.nil?
+
+    redirect_to user_posts_path, notice: 'This post has been deleted.'
   end
 
   def new
@@ -26,48 +30,41 @@ class PostsController < ApplicationController
     @user = User.find(params[:user_id])
     @post = @user.posts.new(post_params)
 
-
     if @post.save
       redirect_to user_post_path(@user, @post)
     else
-      flash.now[:error] = "Please try again."
+      flash.now[:error] = 'Please try again.'
       render :new, status: :unprocessable_entity
     end
-  end 
+  end
 
   def edit
     @user = User.find(params[:user_id])
     @post = @user.posts.find(params[:id])
-
   end
 
   def update
     @user = User.find(params[:user_id])
     @post = @user.posts.find(params[:id])
 
-
-
     if @post.update(post_params)
       redirect_to user_post_path(@user, @post)
     else
-      flash.now[:error] = "Please try again."
+      flash.now[:error] = 'Please try again.'
       render :edit, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
     @user = User.find(params[:user_id])
     @post = @user.posts.find(params[:id])
-
 
     @post.destroy
 
     redirect_to user_posts_path, status: :see_other
   end
 
-
-  private 
-
+  private
 
   def post_params
     params.require(:post).permit(:title, :body)
@@ -75,9 +72,9 @@ class PostsController < ApplicationController
 end
 
 def require_post_owner
-  if current_user != @user
-    redirect_to user_posts_path(@user)
-  end
+  return unless current_user != @user
+
+  redirect_to user_posts_path(@user)
 end
 
 def set_post
